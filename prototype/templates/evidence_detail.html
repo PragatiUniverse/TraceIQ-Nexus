@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block title %}Evidence {{ record.id }} — TraceIQ Nexus{% endblock %}
+{% block content %}
+<div class="mb-4">
+    <a href="{{ url_for('traceiq.evidence_list') }}" class="btn btn-sm btn-outline-nexus mb-3">&larr; Back to Evidence Inventory</a>
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <span class="badge badge-cyan me-2">{{ record.id }}</span>
+            <span class="badge badge-violet">{{ record.category }}</span>
+            <h2 class="fw-bold text-white mt-2 mb-1">{{ record.title }}</h2>
+        </div>
+        <div>
+            <span class="badge {% if record.integrity_status == 'DIFFERS_FROM_REFERENCE' %}badge-rose{% else %}badge-emerald{% endif %} p-2">
+                {{ record.integrity_status or 'VERIFIED' }}
+            </span>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <!-- Left Column: Record Attributes & Hashes -->
+    <div class="col-lg-6">
+        <div class="card-nexus mb-4">
+            <h5 class="fw-bold text-white mb-3">Record Telemetry & Metadata</h5>
+            <table class="table table-dark table-sm mb-0">
+                <tr><td class="text-muted">Source Artifact:</td><td><code>{{ record.source_artifact }}</code></td></tr>
+                <tr><td class="text-muted">Collection Time:</td><td>{{ record.collection_timestamp }}</td></tr>
+                <tr><td class="text-muted">Timezone Status:</td><td><span class="badge bg-secondary">{{ record.timezone_status }}</span></td></tr>
+                <tr><td class="text-muted">Import Time:</td><td>{{ record.import_timestamp }}</td></tr>
+            </table>
+            <div class="mt-3">
+                <span class="text-muted small">Description:</span>
+                <p class="text-secondary small mt-1">{{ record.description }}</p>
+            </div>
+        </div>
+
+        <div class="card-nexus">
+            <h5 class="fw-bold text-white mb-3">Cryptographic Digest Integrity</h5>
+            <div class="mb-2">
+                <span class="text-muted small">Reference Digest (Official Manifest):</span>
+                <div class="code-box mt-1 py-1" style="font-size: 0.75rem;">{{ record.reference_hash or 'Not recorded in baseline manifest' }}</div>
+            </div>
+            <div class="mb-2">
+                <span class="text-muted small">Calculated SHA-256 Digest:</span>
+                <div class="code-box mt-1 py-1" style="font-size: 0.75rem;">{{ record.calculated_hash or 'Pending on-demand hash action' }}</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Column: Provenance Pipeline Chain -->
+    <div class="col-lg-6">
+        <div class="card-nexus">
+            <h5 class="fw-bold text-white mb-3">Lifecycle Provenance Chain</h5>
+            <p class="text-secondary small">TraceIQ Nexus models the transformation lifecycle from raw system collection to synthesized reporting statements.</p>
+            
+            {% if provenance and provenance.provenance_pipeline %}
+            <div class="list-group list-group-flush">
+                {% for stage in provenance.provenance_pipeline %}
+                <div class="list-group-item bg-transparent text-white border-secondary px-0 py-2 d-flex justify-content-between align-items-center">
+                    <div>
+                        <strong class="text-info">{{ stage.stage }}</strong>
+                        <div class="text-secondary small">
+                            {% if stage.label %}{{ stage.label }}{% endif %}
+                            {% if stage.event_ids %}Linked Events: {{ stage.event_ids|join(', ') }}{% endif %}
+                            {% if stage.finding_ids %}Triggered Findings: {{ stage.finding_ids|join(', ') }}{% endif %}
+                        </div>
+                    </div>
+                    <span class="badge badge-violet">{{ stage.type }}</span>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <div class="alert alert-secondary mt-3 mb-0 small" style="background: rgba(255,255,255,0.05); border-color: var(--border-color); color: var(--text-secondary);">
+                ℹ️ <strong>Integrity Note:</strong> The local SQLite provenance log does not provide legal chain-of-custody or tamper-proof security against privileged database operators.
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

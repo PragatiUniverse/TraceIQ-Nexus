@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Missing Evidence & Uncertainty — TraceIQ Nexus{% endblock %}
+{% block content %}
+<div class="row align-items-center mb-4">
+    <div class="col-md-8">
+        <h2 class="fw-bold mb-1 text-white">Missing Evidence & Uncertainty Explorer</h2>
+        <p class="text-secondary mb-0">Identify absent records, incomplete logs, and unverified data that constrain forensic certainty.</p>
+    </div>
+    <div class="col-md-4 text-md-end mt-3 mt-md-0">
+        <span class="badge badge-cyan p-2">{{ items|length }} Telemetry Gaps Cataloged</span>
+    </div>
+</div>
+
+<div class="alert alert-secondary py-2 px-3 mb-4 small" style="background: rgba(255,255,255,0.05); border-color: var(--border-color); color: var(--text-secondary);">
+    ℹ️ <strong>Heuristic Distinction:</strong> Absence of a log does not imply intentional destruction or conspiracy. Normal rolling buffer overwrites, disabled logging levels, or network partitions routinely create information gaps.
+</div>
+
+<div class="row g-4">
+    {% for it in items %}
+    <div class="col-12">
+        <div class="card-nexus" style="border-left: 4px solid {% if 'BLOCKS' in it.impact_level %}var(--accent-rose){% else %}var(--accent-amber){% endif %};">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+                <div>
+                    <span class="badge {% if 'BLOCKS' in it.impact_level %}badge-rose{% else %}bg-warning text-dark{% endif %} me-2">
+                        {{ it.impact_level }}
+                    </span>
+                    <span class="badge badge-cyan">{{ it.id }}</span>
+                </div>
+                <div>
+                    <span class="text-muted small">Affects: </span>
+                    {% for h in it.affected_hypotheses %}
+                    <span class="badge badge-violet ms-1">{{ h }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <h4 class="fw-bold text-white mb-2">{{ it.title }}</h4>
+            <p class="text-secondary mb-3">{{ it.why_it_matters }}</p>
+
+            <div class="p-3 rounded small" style="background: rgba(0,0,0,0.25); border: 1px solid var(--border-color);">
+                <strong class="text-info">Recommended Resolution / Recovery Action:</strong>
+                <div class="text-secondary mt-1">{{ it.resolution_steps }}</div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

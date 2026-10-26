@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — TraceIQ Nexus{% endblock %}
+{% block content %}
+<div class="row align-items-center mb-4">
+    <div class="col-md-8">
+        <h2 class="fw-bold mb-1" style="color: var(--text-primary);">Forensics Investigation Workspace</h2>
+        <p class="text-secondary mb-0">Case <strong>{{ case.case_info.case_id }}: {{ case.case_info.title }}</strong> &bull; Status: <span class="badge badge-cyan">{{ case.case_info.status }}</span></p>
+    </div>
+    <div class="col-md-4 text-md-end mt-3 mt-md-0">
+        <a href="{{ url_for('traceiq.challenge') }}" class="btn btn-cyan me-2">Start Challenge Mode</a>
+        <a href="{{ url_for('traceiq.report') }}" class="btn btn-outline-nexus">View Report</a>
+    </div>
+</div>
+
+<!-- Core Real Metrics Row (All calculated from loaded data) -->
+<div class="row g-3 mb-4">
+    <div class="col-6 col-md-3">
+        <div class="card-nexus text-center">
+            <div class="stat-value text-info">{{ metrics.evidence_count }}</div>
+            <div class="stat-label">Evidence Records</div>
+        </div>
+    </div>
+    <div class="col-6 col-md-3">
+        <div class="card-nexus text-center">
+            <div class="stat-value" style="color: var(--accent-violet);">{{ metrics.event_count }}</div>
+            <div class="stat-label">Reconstructed Events</div>
+        </div>
+    </div>
+    <div class="col-6 col-md-3">
+        <div class="card-nexus text-center">
+            <div class="stat-value text-danger">{{ metrics.contradiction_count }}</div>
+            <div class="stat-label">Flagged Contradictions</div>
+        </div>
+    </div>
+    <div class="col-6 col-md-3">
+        <div class="card-nexus text-center">
+            <div class="stat-value text-warning">{{ metrics.challenge_score }} / 100</div>
+            <div class="stat-label">Challenge Score</div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <!-- Left Column: Case Entities & Scope -->
+    <div class="col-lg-8">
+        <div class="card-nexus">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="fw-bold mb-0 text-white">Documented Entities & Endpoints</h5>
+                <span class="badge badge-violet">{{ entities|length }} Identified</span>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-dark table-hover mb-0" style="background: transparent;">
+                    <thead>
+                        <tr class="text-secondary small">
+                            <th>Entity / Role</th>
+                            <th>Type</th>
+                            <th>Host / Workstation</th>
+                            <th>IP / Identifiers</th>
+                            <th>Context</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for ent in entities %}
+                        <tr>
+                            <td>
+                                <strong class="text-white">{{ ent.name }}</strong><br>
+                                <span class="text-muted small">{{ ent.role }}</span>
+                            </td>
+                            <td><span class="badge badge-cyan">{{ ent.type }}</span></td>
+                            <td><code>{{ ent.workstation }}</code></td>
+                            <td><code>{{ ent.ip_address }}</code></td>
+                            <td class="text-secondary small">{{ ent.notes }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Investigation Principle Card -->
+        <div class="card-nexus" style="border-left: 4px solid var(--accent-cyan);">
+            <h6 class="fw-bold text-info mb-2">Core Technical Principle</h6>
+            <p class="text-secondary mb-0">
+                "{{ case.case_info.core_principle }}" — All findings in TraceIQ Nexus preserve source provenance links, rule definitions, and explicit limitation disclosures so that reviewers can challenge automated correlations.
+            </p>
+        </div>
+    </div>
+
+    <!-- Right Column: Quick Navigation & Audit Log -->
+    <div class="col-lg-4">
+        <div class="card-nexus mb-4">
+            <h5 class="fw-bold mb-3 text-white">Investigation Modules</h5>
+            <div class="d-grid gap-2">
+                <a href="{{ url_for('traceiq.timeline') }}" class="btn btn-outline-nexus text-start d-flex justify-content-between align-items-center">
+                    <span>⏱️ Evidence Time Machine</span>
+                    <span class="badge badge-cyan">Replay</span>
+                </a>
+                <a href="{{ url_for('traceiq.hypotheses') }}" class="btn btn-outline-nexus text-start d-flex justify-content-between align-items-center">
+                    <span>🔬 Multiple-Hypothesis Lab</span>
+                    <span class="badge badge-violet">2 Competing</span>
+                </a>
+                <a href="{{ url_for('traceiq.contradictions') }}" class="btn btn-outline-nexus text-start d-flex justify-content-between align-items-center">
+                    <span>⚡ Contradiction Hunter</span>
+                    <span class="badge badge-rose">{{ metrics.contradiction_count }} Flagged</span>
+                </a>
+                <a href="{{ url_for('traceiq.integrity') }}" class="btn btn-outline-nexus text-start d-flex justify-content-between align-items-center">
+                    <span>🔒 SHA-256 File Integrity</span>
+                    <span class="badge badge-emerald">hashlib</span>
+                </a>
+                <a href="{{ url_for('traceiq.missing_evidence') }}" class="btn btn-outline-nexus text-start d-flex justify-content-between align-items-center">
+                    <span>🧩 Missing Evidence Explorer</span>
+                    <span class="badge badge-cyan">{{ metrics.missing_items_count }} Items</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="card-nexus">
+            <h6 class="fw-bold text-secondary mb-3">Recent Application Audit Events</h6>
+            {% if recent_audits %}
+            <div class="small">
+                {% for a in recent_audits %}
+                <div class="mb-2 pb-2 border-bottom" style="border-color: rgba(255,255,255,0.08) !important;">
+                    <div class="d-flex justify-content-between">
+                        <strong class="text-info">{{ a.action_type }}</strong>
+                        <span class="text-muted" style="font-size: 0.7rem;">{{ a.timestamp[11:19] }}Z</span>
+                    </div>
+                    <div class="text-secondary">{{ a.target_entity }}: {{ a.details }}</div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="text-muted small mb-0">No recent user actions recorded in SQLite audit log.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

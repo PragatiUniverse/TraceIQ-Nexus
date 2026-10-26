@@ -1,0 +1,6 @@
+{
+  "name": "TraceIQ Nexus",
+  "description": "Connect the Clues. Challenge the Story. Verify the Evidence. Explainable digital forensics investigation lab with timeline replay, multi-hypothesis testing, contradiction hunter, provenance tracking, and integrity verification.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,904 @@
+# TRACEIQ NEXUS — ULTIMATE MASTER BUILD PROMPT
+## Build a Competition-Ready, Explainable Digital Forensics Investigation Lab
+
+You are acting as a senior software architect, Python full-stack developer, digital-forensics researcher, UI/UX engineer, test engineer, and technical documentation specialist.
+
+Your mission is to BUILD a complete, polished, interactive, locally runnable project called **TraceIQ Nexus**.
+
+I am a B.Tech Artificial Intelligence and Data Science student preparing a competition submission. I need a real working application, not a concept, a static dashboard, pseudocode, or a list of future features.
+
+Prioritize maximum demonstration impact while maintaining technical honesty, beginner-friendly setup, reliable functionality, and a strict submission size limit.
+
+Do not claim that the project will win a prize. Do not claim that a feature is globally unique without sufficient research.
+
+---
+
+# PART 1 — PROJECT IDENTITY
+
+**Name:** TraceIQ Nexus
+
+**Tagline:** Connect the Clues. Challenge the Story. Verify the Evidence.
+
+**Category:** AI-assisted digital forensics, evidence intelligence, explainable investigation workflows.
+
+**Project concept:**
+
+TraceIQ Nexus is an educational digital-forensics prototype that enables investigators and reviewers to organize fictional digital evidence, reconstruct event timelines, explore documented relationships, detect inconsistencies, compare competing explanations, verify file integrity, identify missing information, and produce evidence-linked reports.
+
+Its central principle is:
+
+**A suspicious pattern is not proof of wrongdoing. Every finding must have a traceable basis, limitations, and a way for a human reviewer to challenge it.**
+
+The application must use entirely fictional, synthetic demonstration data.
+
+## Primary design question
+
+Can an investigation interface make it easier for a reviewer to identify contradictions, compare alternative explanations, and trace every finding to its supporting source records?
+
+Treat this as a question to investigate and evaluate, not a proven research result.
+
+# PART 2 — RESEARCH EXISTING TOOLS BEFORE CLAIMING NOVELTY
+
+Before finalizing the feature design, compare TraceIQ Nexus against established digital-forensics tools and relevant research.
+
+Investigate appropriate examples, including:
+- Autopsy and The Sleuth Kit
+- Plaso and Timesketch
+- Velociraptor, where relevant
+- Open-source forensic evidence integrity and provenance approaches
+- Research on timeline reconstruction, evidence correlation, uncertainty representation, and competing-hypothesis analysis
+
+Use credible sources, official documentation, research papers, and publication details. Record access dates for online resources.
+
+Create `docs/COMPETITIVE_ANALYSIS.md` containing:
+1. Existing tool or research approach
+2. Its documented capabilities
+3. Its relevance to the TraceIQ problem
+4. The specific gap or limitation supported by available evidence
+5. TraceIQ's proposed response
+6. Evidence and citations
+7. Unverified assumptions and unresolved research questions
+
+Create a feature comparison matrix. Compare only capabilities that the sources actually substantiate.
+
+Important:
+- Do not state that existing forensic software lacks a feature unless evidence supports that statement.
+- Do not fabricate papers, authors, statistics, links, or product capabilities.
+- If web research is unavailable, state that verification is pending and provide the exact research tasks needed.
+- Do not use “world's first,” “never solved before,” “100% accurate,” or similar unsupported claims.
+- Explain the proposed contribution as a design hypothesis until it has been evaluated.
+
+The intended differentiation is the integration of:
+- Evidence-linked investigation findings
+- Interactive timeline replay
+- Competing-hypothesis comparison
+- Contradiction detection
+- Missing-evidence analysis
+- SHA-256 integrity checks
+- A challenge mode that lets a reviewer test the system
+
+These features may already exist individually or in other combinations. Verify before making novelty claims.
+
+# PART 3 — REQUIRED TECHNOLOGY
+
+Use a lightweight, beginner-friendly stack suitable for Windows:
+
+Backend:
+- Python 3.11 or another compatible supported Python version
+- Flask
+- SQLite
+- NetworkX
+- Python hashlib for SHA-256
+- Standard-library logging and testing utilities
+
+Frontend:
+- HTML5
+- CSS3
+- Vanilla JavaScript
+- Cytoscape.js for an interactive evidence graph
+- Bootstrap 5 or custom CSS for a polished responsive interface
+
+Testing:
+- Python unittest or pytest
+- Flask test client
+- Synthetic fixtures
+
+Prefer locally stored frontend assets when feasible. Avoid runtime dependencies on external AI services.
+
+Do not require paid APIs, API keys, cloud infrastructure, Docker, or large model weights.
+
+Do not pretend to use an LLM or machine-learning model when the application actually uses deterministic rules. The core system must function offline after installation.
+
+Use transparent, deterministic rule-based analysis for the first version. Keep the architecture modular for possible future ML integration.
+
+# PART 4 — REQUIRED PROJECT STRUCTURE
+
+Create a clean structure similar to:
+
+TraceIQ-Nexus/
+    app.py
+    requirements.txt
+    README.md
+    .gitignore
+    Build-Log.md
+    Build-Summary.md
+    prototype/
+        README.md
+        app.py
+        requirements.txt
+        traceiq/
+            __init__.py
+            routes.py
+            data_loader.py
+            models.py
+            analysis_engine.py
+            timeline_engine.py
+            graph_builder.py
+            hypothesis_engine.py
+            contradiction_engine.py
+            missing_evidence.py
+            provenance.py
+            integrity.py
+            challenge_engine.py
+            report_generator.py
+            audit.py
+            validators.py
+        data/
+            sample_case.json
+            evidence_manifest.json
+            sample_evidence/
+        templates/
+            base.html
+            dashboard.html
+            case_detail.html
+            evidence.html
+            timeline.html
+            hypothesis_lab.html
+            contradiction_lab.html
+            graph.html
+            integrity.html
+            missing_evidence.html
+            challenge.html
+            report.html
+            methodology.html
+        static/
+            css/
+                style.css
+            js/
+                app.js
+                timeline.js
+                graph.js
+                hypotheses.js
+                challenge.js
+        tests/
+            test_routes.py
+            test_integrity.py
+            test_timeline.py
+            test_hypotheses.py
+            test_contradictions.py
+            test_provenance.py
+            test_missing_evidence.py
+            test_challenge.py
+            test_reports.py
+        docs/
+            ARCHITECTURE.md
+            COMPETITIVE_ANALYSIS.md
+            DATA_DICTIONARY.md
+            TEST_PLAN.md
+            LIMITATIONS.md
+            DEMO_SCRIPT.md
+
+You may improve this structure, but preserve clear separation between frontend, backend, data, analysis, tests, and documentation.
+
+Avoid unnecessary duplicate entry points. The root README must clearly explain that the runnable application lives in `/prototype`.
+
+All six Build-Log entries must be included in the final submission.
+
+Do not create empty files or placeholder functions for required features.
+
+# PART 5 — PREMIUM UI AND WOW FACTOR
+
+Build a distinctive, high-quality forensic investigation interface.
+
+Design direction:
+- Deep navy background
+- Cyan and violet accents
+- High-contrast typography
+- Restrained glow effects
+- Clear evidence cards
+- Professional tables and data visualization
+- Responsive laptop and mobile layouts
+- Accessible controls and keyboard navigation
+- Empty, loading, warning, error, and success states
+- Consistent icons and spacing
+- Clear source and uncertainty labels
+
+Create a professional TraceIQ Nexus brand treatment using CSS or a small original SVG.
+
+Avoid:
+- Generic dashboard templates
+- Decorative charts that do not use real application data
+- Fake AI confidence indicators
+- Fake customer testimonials
+- Unsupported performance statistics
+- Buttons that do nothing
+- Hardcoded counters presented as live metrics
+
+All dashboard figures must be derived from the actual loaded case data.
+
+Every major feature must have a meaningful interaction.
+
+# PART 6 — SYNTHETIC INVESTIGATION CASE
+
+Create a fully self-contained fictional case:
+
+Case ID: TQN-2026-001
+
+Case title: The Missing Research Files
+
+Case category: Educational digital-forensics simulation
+
+Status: Demonstration only
+
+Create a small, coherent dataset containing approximately:
+- 25–35 evidence records
+- 30–45 synthetic events
+- At least 6 fictional entities
+- Multiple event types
+- Several source records with ambiguous or missing metadata
+- At least 2 deliberately constructed contradictions
+- At least 2 competing explanations
+- At least 1 synthetic file with a known reference SHA-256 digest
+- At least 1 modified sample file
+- Several records that support ordinary, non-suspicious explanations
+
+Use fictional accounts, devices, files, organizations, and events.
+
+For network examples, use reserved documentation IP ranges such as:
+- 192.0.2.0/24
+- 198.51.100.0/24
+- 203.0.113.0/24
+
+Use deterministic timestamps and a documented random seed if any random generation is used.
+
+Represent timestamps with explicit timezone information when known. Preserve unknown timezone status when it is not known. Do not silently convert uncertain timestamps into authoritative UTC values.
+
+Create a data dictionary that defines every important field and identifier.
+
+The dataset must be small enough to keep the final ZIP comfortably below the required limit.
+
+Provide a reset-to-original-demo-data action.
+
+# PART 7 — FEATURE ONE: EVIDENCE TIME MACHINE
+
+Build an interactive timeline replay tool.
+
+Required functionality:
+- Display events in chronological order when timestamps are comparable.
+- Support search and filters.
+- Allow play, pause, next-event, previous-event, and reset.
+- Include a draggable timeline position control.
+- Show the relevant evidence records as events appear.
+- Highlight documented relationships among currently visible entities.
+- Display the source evidence ID for each event.
+- Clearly separate event time, collection time, and import time.
+- Preserve unknown or uncertain timezone information.
+- Show possible timestamp conflicts instead of silently resolving them.
+
+When the user changes the replay position, the visible events, selected evidence, and graph context must update.
+
+Include a synthetic scenario where two event timestamps appear inconsistent.
+
+Let users compare:
+- The original recorded sequence
+- An explicitly labelled hypothetical sequence, if a documented assumption is applied
+
+Never overwrite the original timestamps.
+
+Show the assumption used to produce a hypothetical sequence and allow the user to revert immediately.
+
+Acceptance criterion:
+A reviewer can replay a case, select an event, open its source evidence, and inspect a timestamp inconsistency.
+
+# PART 8 — FEATURE TWO: MULTIPLE-HYPOTHESIS LAB
+
+This is a core differentiating feature.
+
+Generate at least two competing explanations for the fictional missing-files incident.
+
+For example:
+- Hypothesis A: An authorized maintenance operation explains the file changes.
+- Hypothesis B: An unrecognized access sequence may explain the changes.
+
+These are fictional scenarios, not allegations about real people.
+
+For each hypothesis, display:
+- A plain-language explanation
+- Supporting evidence IDs
+- Contradicting evidence IDs
+- Neutral evidence
+- Missing information
+- Assumptions
+- Unanswered questions
+- Suggested next verification steps
+
+Create an interactive evidence comparison panel.
+
+When the user selects a hypothesis, highlight its related records on the timeline and graph.
+
+Allow the reviewer to mark an item as:
+- Supports
+- Contradicts
+- Neutral
+- Requires review
+
+Store reviewer annotations separately from source evidence.
+
+The system must not turn a support count into a probability that the hypothesis is true.
+
+Do not manufacture evidence to make the hypotheses appear equally plausible.
+
+Where the evidence is insufficient to distinguish hypotheses, say so clearly.
+
+Acceptance criterion:
+The user can compare at least two hypotheses, inspect their evidence references, and see the corresponding evidence highlighted in other views.
+
+# PART 9 — FEATURE THREE: CONTRADICTION HUNTER
+
+Implement a deterministic contradiction and inconsistency analysis engine.
+
+Detect at least:
+1. Incompatible or potentially conflicting timestamps
+2. Events that refer to missing evidence records
+3. References to unknown entities
+4. File metadata that disagrees with another recorded source
+5. Incompatible event sequences under explicitly documented assumptions
+6. Records whose provenance is incomplete
+7. An integrity digest that differs from its reference value
+
+Each finding must include:
+- Finding ID
+- Rule ID and rule name
+- Severity or review-priority label
+- Source evidence IDs
+- Supporting event IDs
+- The exact rule condition
+- Observed values
+- Explanation of why the rule triggered
+- Alternative explanations
+- Missing information
+- Suggested verification action
+- Limitations
+
+Provide a “Why was this flagged?” interaction.
+
+Every finding must link to the underlying records.
+
+Avoid false certainty:
+- A missing record is not automatically evidence of wrongdoing.
+- A timestamp discrepancy may reflect clock skew or timezone uncertainty.
+- A hash mismatch does not establish malicious modification.
+- A graph connection does not prove causation.
+- A rule-based alert is not a validated forensic conclusion.
+
+Acceptance criterion:
+The application detects the seeded synthetic contradictions, displays the actual source references, and explains the triggering rule.
+
+# PART 10 — FEATURE FOUR: EVIDENCE PROVENANCE
+
+Create a provenance system that tracks how evidence enters the application and how each finding is derived.
+
+For each evidence record, include where applicable:
+- Evidence ID
+- Source artifact identifier
+- Collection method description
+- Collection timestamp and timezone status
+- Import timestamp
+- Original filename or synthetic source name
+- Original reference hash, if available
+- Current calculated hash, if applicable
+- Processing operations
+- Links to derived events
+- Links to findings
+- Reviewer annotations
+
+Create a provenance viewer showing:
+
+Source artifact → parsed record → event → analysis rule → finding → report statement
+
+Each link must correspond to a real relationship in the stored application data.
+
+Clearly distinguish:
+- Original synthetic source data
+- Parsed or normalized data
+- Computed values
+- Analyst annotations
+- Hypothetical interpretations
+
+Do not claim that the prototype provides legally valid chain of custody or tamper-proof storage.
+
+If the application records its own actions, document that its SQLite audit log can be modified by someone with sufficient access.
+
+Acceptance criterion:
+A reviewer can trace a finding back to its source evidence and inspect the transformations used to derive it.
+
+# PART 11 — FEATURE FIVE: SHA-256 INTEGRITY VERIFICATION
+
+Implement real file hashing using Python hashlib.
+
+Provide:
+1. Verification of a user-selected local file
+2. Comparison with a user-provided reference SHA-256 digest
+3. Verification of the included original synthetic sample
+4. Verification of a deliberately modified synthetic sample
+5. A clear explanation of the result
+
+Display:
+- Filename
+- File size
+- Calculated SHA-256
+- Reference SHA-256, when available
+- Match or mismatch status
+- Verification timestamp
+- Verification action ID
+
+Validate reference digest format.
+
+Use safe temporary-file handling if necessary, enforce a reasonable upload limit, handle malformed input, and never accept arbitrary server filesystem paths from a browser.
+
+Do not persist uploaded file contents unless explicitly required and documented.
+
+Explain:
+A matching digest indicates that the file bytes match the supplied reference digest. It does not establish the trustworthiness of the reference, the identity of the creator, the time of creation, or the validity of the original collection process.
+
+Use neutral status wording such as:
+- Matches reference
+- Differs from reference
+- Reference unavailable
+- Verification incomplete
+
+Acceptance criterion:
+Changing the included sample file changes the calculated digest and produces a mismatch against the original reference.
+
+# PART 12 — FEATURE SIX: MISSING-EVIDENCE ANALYSIS
+
+Build a missing-evidence and uncertainty explorer.
+
+Identify:
+- Event references with no matching source record
+- Missing fields required by a particular analysis rule
+- Timestamp gaps that matter to a specific hypothesis
+- Missing reference hashes
+- Incomplete provenance links
+- Ambiguous entity mappings
+- Records needed to distinguish competing explanations
+
+For each missing item, show:
+- What is missing
+- Which finding or hypothesis depends on it
+- Why it matters
+- Whether it blocks a conclusion or merely reduces context
+- What additional information could resolve it
+- Whether the gap is known to be intentional in the demo
+
+Do not label a time gap as suspicious merely because no event is recorded.
+
+Distinguish:
+- Missing data
+- Unknown data
+- Contradictory data
+- Data not applicable
+- Data not yet reviewed
+
+Acceptance criterion:
+The reviewer can select a missing-evidence item and see the findings and hypotheses affected by it.
+
+# PART 13 — FEATURE SEVEN: LIVE INVESTIGATION CHALLENGE
+
+Create a fully interactive, self-contained challenge mode.
+
+Challenge name: “The Missing Research Files — Investigation Challenge”
+
+Provide a short case brief and a sequence of investigation tasks.
+
+Include:
+- A hidden synthetic timestamp discrepancy
+- A sample file whose content differs from the reference
+- At least two plausible hypotheses
+- A missing source record
+- Supporting and contradictory evidence
+- A final report-generation task
+
+The user must interact with the actual application to solve the challenge.
+
+Create a scoring rubric based on demonstrated investigation tasks, such as:
+- Finding the timestamp inconsistency
+- Identifying the reference hash mismatch
+- Opening the relevant provenance chain
+- Comparing competing hypotheses
+- Identifying an important missing record
+- Generating a correctly referenced report
+
+Score completion of tasks, not whether the user accuses a particular fictional person.
+
+Show which tasks were completed and provide explanations.
+
+Use deterministic challenge data and a reset button.
+
+Keep the scoring logic separate from the forensic analysis engine.
+
+The score measures task completion only. It must not be described as investigator competence, forensic accuracy, or proof of a correct real-world conclusion.
+
+Acceptance criterion:
+A new user can start, complete, reset, and repeat the challenge using only the included synthetic dataset.
+
+# PART 14 — FEATURE EIGHT: EVIDENCE-LINKED REPORT GENERATOR
+
+Generate a downloadable Markdown or text report from the actual selected case data.
+
+Include:
+1. Case identity and scope
+2. Synthetic-data disclaimer
+3. Methodology
+4. Evidence inventory
+5. Event timeline summary
+6. Contradiction findings
+7. Competing hypotheses
+8. Evidence supporting each hypothesis
+9. Contradicting or ambiguous evidence
+10. Integrity verification results
+11. Provenance gaps
+12. Missing evidence
+13. Reviewer annotations
+14. Unanswered questions
+15. Recommended verification steps
+16. Limitations
+17. Report generation timestamp
+
+Every finding must include clickable or clearly readable evidence identifiers.
+
+Separate direct observations, deterministic rule outputs, reviewer notes, and hypothetical explanations.
+
+Do not fabricate findings, test results, data sources, or timestamps.
+
+Do not write that the system proves guilt or determines criminal intent.
+
+Provide a preview before downloading.
+
+Acceptance criterion:
+The generated report reflects the actual case data and references existing evidence records.
+
+# PART 15 — DASHBOARD AND CASE EXPLORER
+
+Build a functional overview with:
+- Case selector
+- Evidence count
+- Event count
+- Findings requiring review
+- Integrity verification summary
+- Missing-evidence summary
+- Challenge completion status
+- Recent application actions
+
+All metrics must be calculated from stored data.
+
+Add a global search for evidence IDs, events, and entities.
+
+Include filters and useful empty states.
+
+No decorative metric may imply real-world accuracy, crime detection rates, or proven operational effectiveness.
+
+# PART 16 — DATA MODEL AND STORAGE
+
+Use SQLite for:
+- Case metadata
+- Reviewer annotations
+- Challenge progress
+- Verification actions
+- Application audit events
+
+Store the synthetic source dataset in version-controlled JSON files or another clearly documented small format.
+
+Keep source records separate from annotations and derived findings.
+
+Use parameterized SQL queries.
+
+Validate inputs and escape output appropriately.
+
+Use stable IDs so evidence references remain consistent between the timeline, graph, findings, and report.
+
+Provide a reset function that restores the initial synthetic dataset without deleting source code or documentation.
+
+# PART 17 — SECURITY AND ETHICAL LIMITATIONS
+
+The application is strictly an educational local prototype.
+
+- Use fictional data only.
+- Do not access real devices, accounts, or messages.
+- Do not include credential theft, malware execution, stealth collection, or unauthorized access.
+- Treat uploaded files as untrusted.
+- Validate all input.
+- Enforce upload limits.
+- Prevent arbitrary path access.
+- Use safe temporary-file handling.
+- Keep secrets out of the repository.
+- Document that authentication is not implemented unless it genuinely is.
+- Document that the audit log is not tamper-proof.
+- Do not claim forensic validation, legal admissibility, or chain-of-custody certification.
+- Do not claim that the project replaces a trained forensic examiner.
+
+Provide `docs/LIMITATIONS.md` describing technical, methodological, and ethical limitations.
+
+# PART 18 — AUTOMATED TESTING
+
+Create executable tests for every major subsystem.
+
+At minimum, test:
+- SHA-256 of known bytes
+- Matching reference digest
+- Mismatching reference digest
+- Invalid digest input
+- Empty and oversized uploads
+- Event ordering
+- Unknown timestamps
+- Timezone-aware versus timezone-unknown records
+- Seeded contradiction detection
+- Missing-evidence detection
+- Evidence graph creation
+- Provenance links
+- Competing hypothesis references
+- Hypothesis highlighting data
+- Challenge task completion
+- Challenge reset
+- Report evidence references
+- CSV or JSON export
+- Flask health endpoint
+- Invalid request handling
+- Database initialization and reset
+
+Use temporary directories or test databases where appropriate.
+
+Create `docs/TEST_PLAN.md` with:
+- Test ID
+- Feature
+- Purpose
+- Input
+- Expected result
+- Actual result
+- Pass/fail status
+
+Initially mark unexecuted tests as “Not run.”
+
+Run tests if execution is available. Fix failures before declaring completion.
+
+Never claim that unexecuted tests passed.
+
+# PART 19 — BUILD LOG AND BUILD SUMMARY
+
+The submission requires exactly one complete package with all six Build-Log entries covering Chapters 1–6 and a one-page Build-Summary.
+
+Create a root-level `Build-Log.md` with these six clearly separated sections:
+
+Chapter 1 — Problem discovery and initial assumptions  
+Chapter 2 — Research and evidence  
+Chapter 3 — Problem definition and target user  
+Chapter 4 — Solution design and reusable specification  
+Chapter 5 — Implementation and testing workflow  
+Chapter 6 — Evaluation, limitations, and next steps
+
+For every chapter, document:
+- Work performed
+- Decisions made
+- Sources consulted
+- Assumptions
+- Evidence actually collected
+- What remains unverified
+- Next steps
+
+Do not fabricate interviews, user research, stakeholder approval, performance results, or completed experiments.
+
+Create `Build-Summary.md` as a concise one-page summary covering:
+- Project name
+- Target user
+- Problem
+- Proposed solution
+- Core features
+- Technology stack
+- Demonstration workflow
+- Validation status
+- Limitations
+- Future work
+
+Keep the Build-Summary concise enough to fit approximately one page when rendered as ordinary Markdown.
+
+Ensure both files are included at the ZIP root.
+
+# PART 20 — COMPLETE WINDOWS SETUP
+
+Write a beginner-friendly README for Windows 10/11 and VS Code.
+
+Include:
+- Prerequisites
+- Project directory structure
+- Virtual environment creation
+- Dependency installation
+- Application startup
+- Browser URL
+- Test execution
+- Resetting the demo
+- Creating the ZIP
+- Troubleshooting
+
+Use commands consistent with the actual implementation.
+
+Recommended setup:
+
+`py -m venv .venv`
+
+`.\.venv\Scripts\python.exe -m pip install --upgrade pip`
+
+`.\.venv\Scripts\python.exe -m pip install -r prototype\requirements.txt`
+
+`.\.venv\Scripts\python.exe prototype\app.py`
+
+If the app uses a different documented entry point, adjust the commands accordingly.
+
+Explain how to stop the server, reopen the application, and interpret common errors.
+
+Do not require a separate frontend build process unless genuinely necessary.
+
+# PART 21 — FIVE-MINUTE DEMONSTRATION
+
+Create `docs/DEMO_SCRIPT.md`.
+
+The five-minute demo must use the actual working application:
+
+Minute 1:
+Introduce the fictional case and explain the problem.
+
+Minute 2:
+Replay the timeline and identify a timestamp inconsistency.
+
+Minute 3:
+Compare competing hypotheses and inspect supporting and contradictory evidence.
+
+Minute 4:
+Open the provenance trail, inspect missing evidence, and demonstrate the SHA-256 reference mismatch.
+
+Minute 5:
+Complete challenge tasks and generate an evidence-linked investigation report.
+
+For every step, document the exact UI action, expected visible result, and fallback if a feature fails.
+
+Never use fake results in place of a live demonstration.
+
+# PART 22 — MANDATORY ZIP REQUIREMENTS
+
+The final deliverable must be one ZIP archive named:
+
+`TeamName_Theme_Module1.zip`
+
+Strict size limit:
+
+**Less than 25,000,000 bytes.**
+
+Target size: below 10 MB.
+
+The archive must contain:
+
+`prototype/` — complete runnable source code, frontend assets, sample data, and automated tests.
+
+`Build-Log.md` — all six chapter entries.
+
+`Build-Summary.md` — one-page summary.
+
+Include required project documentation and tests within the prototype folder.
+
+Do not include:
+- `.venv` or `venv`
+- `node_modules`
+- `.git`
+- Python `__pycache__` directories
+- Large unnecessary generated files
+- Video recordings
+- Duplicate project copies
+- Python installers
+- Model weights
+- Secrets or credentials
+- Real personal data
+
+Include the source code and documentation needed to install and run the project.
+
+Use the exact registered competition theme and actual team name when constructing the final filename. If these are unknown, ask for them instead of inventing them.
+
+Before delivery:
+1. Create the ZIP.
+2. Measure its actual byte size.
+3. Confirm it is strictly below 25,000,000 bytes.
+4. List archive contents.
+5. Confirm the required root files exist.
+6. Confirm all required prototype files exist.
+7. Test ZIP integrity.
+8. Verify that no excluded folders are included.
+9. Confirm the README setup commands match the project.
+10. Report the actual test results and packaging checks.
+
+If the ZIP exceeds the limit, reduce unnecessary assets without removing required source code, tests, documentation, or demo data.
+
+If file generation is unavailable, provide a complete packaging script that creates and verifies the archive locally. Do not claim to have created a downloadable ZIP unless it actually exists and has been checked.
+
+# PART 23 — HOW TO GENERATE THE CODE
+
+Generate the complete implementation in manageable batches.
+
+Batch 1:
+- Architecture and data model
+- Project structure
+- Synthetic case JSON
+- Dependency manifest
+- Backend core and routes
+
+Batch 2:
+- Timeline engine
+- Hypothesis engine
+- Contradiction engine
+- Missing-evidence analysis
+- Provenance and graph logic
+- SHA-256 verification
+
+Batch 3:
+- Frontend pages
+- CSS
+- JavaScript interactions
+- Challenge mode
+- Report generation
+
+Batch 4:
+- Automated tests
+- Documentation
+- Build-Log
+- Build-Summary
+- Competitive analysis
+- Demo script
+
+Batch 5:
+- Run tests if possible
+- Fix bugs
+- Review imports, routes, templates, database schema, and dependencies
+- Create and verify the ZIP
+- Report remaining limitations honestly
+
+Maintain a checklist of completed files. Keep function names, routes, data fields, and imports consistent across batches.
+
+Do not truncate required files or replace them with phrases such as “continue similarly,” “implement this yourself,” or “code omitted for brevity.”
+
+If the Gemini app cannot generate all files at once, continue through follow-up responses using the checklist. Do not restart with a different architecture.
+
+# PART 24 — FINAL ACCEPTANCE CHECKLIST
+
+The project is complete only when:
+
+- [ ] Application starts using documented Windows commands.
+- [ ] Dashboard loads from actual synthetic data.
+- [ ] Evidence records can be searched and opened.
+- [ ] Timeline replay works.
+- [ ] Timeline source links work.
+- [ ] Multiple hypotheses can be compared.
+- [ ] Contradictions display their triggering rules and sources.
+- [ ] Evidence relationships are traceable.
+- [ ] SHA-256 verification calculates real hashes.
+- [ ] Missing-evidence analysis works.
+- [ ] Challenge tasks can be completed and reset.
+- [ ] Reports reflect actual data and reference existing evidence.
+- [ ] Automated tests exist and their actual execution status is reported.
+- [ ] Competitive analysis uses real, cited sources where available.
+- [ ] Six Build-Log entries are present.
+- [ ] Build-Summary is present.
+- [ ] Setup documentation is consistent with the code.
+- [ ] No real personal data is included.
+- [ ] No unsupported forensic or novelty claims are made.
+- [ ] ZIP contains all required files.
+- [ ] ZIP is strictly smaller than 25,000,000 bytes.
+- [ ] ZIP integrity has been checked.
+
+Start by researching existing tools, defining the evidence data model, and presenting the project structure. Then begin generating the actual implementation. Continue until all required files are delivered.

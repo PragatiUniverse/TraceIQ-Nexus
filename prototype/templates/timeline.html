@@ -1,0 +1,190 @@
+{% extends "base.html" %}
+{% block title %}Evidence Time Machine — TraceIQ Nexus{% endblock %}
+{% block content %}
+<div class="row align-items-center mb-4">
+    <div class="col-md-7">
+        <h2 class="fw-bold mb-1 text-white">Evidence Time Machine</h2>
+        <p class="text-secondary mb-0">Interactive timeline replay &bull; Causal event reconstruction with explicit hypothetical assumption comparison.</p>
+    </div>
+    <div class="col-md-5 text-md-end mt-3 mt-md-0">
+        <div class="form-check form-switch d-inline-block text-start me-3">
+            <input class="form-check-input" type="checkbox" id="hypToggle" {% if use_hypothetical %}checked{% endif %} onchange="toggleHypothetical(this.checked)">
+            <label class="form-check-label text-warning small fw-bold" for="hypToggle">
+                Hypothetical Sequence (NTP Skew -3200ms)
+            </label>
+        </div>
+    </div>
+</div>
+
+<!-- Replay Control Bar -->
+<div class="card-nexus mb-4 p-3" style="background: var(--bg-surface-elevated);">
+    <div class="row align-items-center g-3">
+        <div class="col-auto">
+            <button class="btn btn-sm btn-outline-nexus" onclick="stepReplay(-1)" title="Previous Event">⏮️ Prev</button>
+            <button class="btn btn-sm btn-cyan" id="playBtn" onclick="togglePlay()">▶️ Play</button>
+            <button class="btn btn-sm btn-outline-nexus" onclick="stepReplay(1)" title="Next Event">Next ⏭️</button>
+            <button class="btn btn-sm btn-outline-nexus" onclick="resetReplay()">Reset</button>
+        </div>
+        <div class="col">
+            <input type="range" class="form-range" id="timeScrubber" min="0" max="{{ events|length - 1 }}" value="{{ events|length - 1 }}" oninput="onScrub(this.value)">
+        </div>
+        <div class="col-auto text-end">
+            <span class="badge badge-cyan" id="eventCounter">Event {{ events|length }} of {{ events|length }}</span>
+        </div>
+    </div>
+    {% if use_hypothetical %}
+    <div class="alert alert-warning py-1 px-3 mt-2 mb-0 small" style="background: rgba(245, 158, 11, 0.15); border-color: rgba(245, 158, 11, 0.4); color: #fde68a;">
+        ⚠️ <strong>Hypothetical Model Active:</strong> Reconstructing timeline under documented assumption that SVR-VAULT-01 system time was running +3200ms fast. Original raw timestamps are preserved below.
+    </div>
+    {% endif %}
+</div>
+
+<!-- Timeline List View -->
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card-nexus">
+            <h5 class="fw-bold text-white mb-3">Reconstructed Event Stream</h5>
+            <div id="timelineContainer">
+                {% for evt in events %}
+                <div class="timeline-item {% if evt.is_conflicting %}conflict{% endif %}" id="evt-item-{{ loop.index0 }}">
+                    <div class="d-flex justify-content-between align-items-start mb-1">
+                        <div>
+                            <span class="badge badge-cyan">{{ evt.effective_timestamp }}</span>
+                            <span class="badge badge-violet ms-1">{{ evt.event_type }}</span>
+                            {% if evt.is_conflicting %}
+                            <span class="badge badge-rose ms-1">⚠️ Conflict Flagged</span>
+                            {% endif %}
+                        </div>
+                        <span class="text-muted small"><code>{{ evt.id }}</code></span>
+                    </div>
+                    <h6 class="fw-bold text-white mt-2 mb-1">{{ evt.summary }}</h6>
+                    <p class="text-secondary small mb-2">{{ evt.details }}</p>
+                    <div class="small text-muted">
+                        Entity: <strong class="text-info">{{ evt.entity_id }}</strong> &bull;
+                        Source Evidence: <a href="{{ url_for('traceiq.evidence_detail', evidence_id=evt.evidence_id) }}" class="text-decoration-none text-info"><code>{{ evt.evidence_id }}</code></a>
+                        {% if evt.timezone_status %}
+                        &bull; Timezone: <span class="badge bg-secondary" style="font-size: 0.65rem;">{{ evt.timezone_status }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Active Frame Inspector Side Panel -->
+    <div class="col-lg-4">
+        <div class="card-nexus sticky-top" style="top: 80px;">
+            <h5 class="fw-bold text-white mb-3">Active Event Inspector</h5>
+            <div id="inspectorPanel">
+                {% if events %}
+                {% set cur = events[-1] %}
+                <div class="mb-3">
+                    <span class="badge badge-cyan">{{ cur.id }}</span>
+                    <span class="badge badge-violet ms-1">{{ cur.event_type }}</span>
+                </div>
+                <h6 class="fw-bold text-white">{{ cur.summary }}</h6>
+                <p class="text-secondary small">{{ cur.details }}</p>
+                <hr style="border-color: var(--border-color);">
+                <div class="small mb-2">
+                    <span class="text-muted">Recorded Timestamp:</span><br>
+                    <code class="text-info">{{ cur.timestamp }}</code>
+                </div>
+                {% if cur.hypothetical_timestamp %}
+                <div class="small mb-2">
+                    <span class="text-muted">Hypothetical Adjusted Timestamp:</span><br>
+                    <code class="text-warning">{{ cur.hypothetical_timestamp }}</code>
+                </div>
+                {% endif %}
+                <div class="small mb-2">
+                    <span class="text-muted">Linked Evidence Record:</span><br>
+                    <code>{{ cur.evidence_id }}</code>
+                </div>
+                {% if cur.evidence_details %}
+                <div class="p-2 rounded mt-2" style="background: rgba(0, 229, 255, 0.05); border: 1px solid rgba(0, 229, 255, 0.2);">
+                    <div class="fw-bold text-info small">{{ cur.evidence_details.title }}</div>
+                    <div class="text-muted small" style="font-size: 0.75rem;">Artifact: {{ cur.evidence_details.source_artifact }}</div>
+                </div>
+                {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    let isPlaying = false;
+    let playInterval = null;
+    let totalEvents = {{ events|length }};
+    let currentIndex = totalEvents - 1;
+
+    function toggleHypothetical(checked) {
+        const url = new URL(window.location);
+        url.searchParams.set("hypothetical", checked ? "1" : "0");
+        window.location = url.toString();
+    }
+
+    function onScrub(val) {
+        currentIndex = parseInt(val);
+        updateView();
+    }
+
+    function stepReplay(delta) {
+        currentIndex = Math.max(0, Math.min(currentIndex + delta, totalEvents - 1));
+        document.getElementById("timeScrubber").value = currentIndex;
+        updateView();
+    }
+
+    function resetReplay() {
+        stopPlay();
+        currentIndex = 0;
+        document.getElementById("timeScrubber").value = 0;
+        updateView();
+    }
+
+    function togglePlay() {
+        if (isPlaying) {
+            stopPlay();
+        } else {
+            startPlay();
+        }
+    }
+
+    function startPlay() {
+        isPlaying = true;
+        document.getElementById("playBtn").innerText = "⏸️ Pause";
+        playInterval = setInterval(() => {
+            if (currentIndex < totalEvents - 1) {
+                currentIndex++;
+                document.getElementById("timeScrubber").value = currentIndex;
+                updateView();
+            } else {
+                stopPlay();
+            }
+        }, 1200);
+    }
+
+    function stopPlay() {
+        isPlaying = false;
+        if (playInterval) clearInterval(playInterval);
+        document.getElementById("playBtn").innerText = "▶️ Play";
+    }
+
+    function updateView() {
+        document.getElementById("eventCounter").innerText = `Event ${currentIndex + 1} of ${totalEvents}`;
+        for (let i = 0; i < totalEvents; i++) {
+            const el = document.getElementById("evt-item-" + i);
+            if (el) {
+                if (i <= currentIndex) {
+                    el.style.opacity = "1";
+                    el.style.display = "block";
+                } else {
+                    el.style.opacity = "0.2";
+                }
+            }
+        }
+    }
+</script>
+{% endblock %}

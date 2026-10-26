@@ -1,0 +1,94 @@
+{
+  "manifest_version": "1.0.0",
+  "case_id": "TQN-2026-001",
+  "generated_at": "2026-10-26T01:00:00Z",
+  "total_records": 28,
+  "hashing_algorithm": "SHA-256",
+  "storage_backend": "SQLite / JSON",
+  "records": [
+    {
+      "id": "EVD-001",
+      "artifact": "fw-core-20261026.log",
+      "category": "NETWORK_TELEMETRY",
+      "reference_hash": "a1b2c3d4e5f60718293a4b5c6d7e8f90123456789abcdef0123456789abcdef0",
+      "verified": true
+    },
+    {
+      "id": "EVD-002",
+      "artifact": "ad_security_event_4624.evtx",
+      "category": "AUTHENTICATION",
+      "reference_hash": "b2c3d4e5f6a10718293a4b5c6d7e8f90123456789abcdef0123456789abcdef1",
+      "verified": true
+    },
+    {
+      "id": "EVD-003",
+      "artifact": "phys_access_reader_south.csv",
+      "category": "PHYSICAL_SECURITY",
+      "reference_hash": "c3d4e5f6a1b20718293a4b5c6d7e8f90123456789abcdef0123456789abcdef2",
+      "verified": true
+    },
+    {
+      "id": "EVD-004",
+      "artifact": "bash_history_root_ws04.txt",
+      "category": "SYSTEM_LOG",
+      "reference_hash": "d4e5f6a1b2c30718293a4b5c6d7e8f90123456789abcdef0123456789abcdef3",
+      "verified": true
+    },
+    {
+      "id": "EVD-005",
+      "artifact": "ext4_journal_dump.raw",
+      "category": "FILE_SYSTEM",
+      "reference_hash": "e5f6a1b2c3d40718293a4b5c6d7e8f90123456789abcdef0123456789abcdef4",
+      "verified": true
+    },
+    {
+      "id": "EVD-006",
+      "artifact": "crontab_root_vault.cfg",
+      "category": "CONFIG",
+      "reference_hash": "f6a1b2c3d4e50718293a4b5c6d7e8f90123456789abcdef0123456789abcdef5",
+      "verified": true
+    },
+    {
+      "id": "EVD-007",
+      "artifact": "ipfix_flow_capture.pcapng",
+      "category": "NETWORK_TELEMETRY",
+      "reference_hash": "0718293a4b5c6d7e8f90123456789abcdef0123456789abcdef0a1b2c3d4e5f6",
+      "verified": true
+    },
+    {
+      "id": "EVD-008",
+      "artifact": "tls_handshake_nginx.log",
+      "category": "NETWORK_TELEMETRY",
+      "reference_hash": "18293a4b5c6d7e8f90123456789abcdef0123456789abcdef01b2c3d4e5f6a107",
+      "verified": true
+    },
+    {
+      "id": "EVD-009",
+      "artifact": "phys_access_reader_south.csv",
+      "category": "PHYSICAL_SECURITY",
+      "reference_hash": "293a4b5c6d7e8f90123456789abcdef0123456789abcdef012c3d4e5f6a1b20718",
+      "verified": true
+    },
+    {
+      "id": "EVD-010",
+      "artifact": "vpn_gateway_radius.log",
+      "category": "AUTHENTICATION",
+      "reference_hash": "3a4b5c6d7e8f90123456789abcdef0123456789abcdef0123d4e5f6a1b2c307182",
+      "verified": true
+    },
+    {
+      "id": "EVD-011",
+      "artifact": "quantum_protocol_v3.pdf",
+      "category": "FILE_INTEGRITY",
+      "reference_hash": "2e6c0ed1e24cb07944da1d22a2c9d0c7334837cb1c14dd308e46d17e0dd0b6b0",
+      "verified": true
+    },
+    {
+      "id": "EVD-012",
+      "artifact": "quantum_protocol_v3_tampered.pdf",
+      "category": "FILE_INTEGRITY",
+      "reference_hash": "2e6c0ed1e24cb07944da1d22a2c9d0c7334837cb1c14dd308e46d17e0dd0b6b0",
+      "verified": false
+    }
+  ]
+}

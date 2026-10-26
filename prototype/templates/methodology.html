@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Methodology & Epistemology — TraceIQ Nexus{% endblock %}
+{% block content %}
+<div class="row align-items-center mb-4">
+    <div class="col-md-8">
+        <h2 class="fw-bold mb-1 text-white">Forensic Methodology & Epistemology</h2>
+        <p class="text-secondary mb-0">Foundational principles, competitive positioning, and technical limitations.</p>
+    </div>
+    <div class="col-md-4 text-md-end mt-3 mt-md-0">
+        <span class="badge badge-cyan p-2">Scientific Rigor &bull; Falsifiability</span>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-8">
+        <div class="card-nexus mb-4">
+            <h4 class="fw-bold text-white mb-3">1. The Principle of Non-Accusatory Correlation</h4>
+            <p class="text-secondary">
+                In real-world digital forensics, anomalous patterns frequently arise from benign operational events: unsynchronized Network Time Protocol (NTP) daemons, delayed syslog buffer flushes, automated cron jobs, or hardware sector reallocation.
+            </p>
+            <p class="text-secondary mb-0">
+                TraceIQ Nexus enforces a strict cognitive barrier: <strong>a suspicious pattern is not proof of wrongdoing</strong>. The platform deliberately pairs every contradiction alert with plausible benign hypotheses and demands direct verification of physical and network corroboration before establishing causal links.
+            </p>
+        </div>
+
+        <div class="card-nexus mb-4">
+            <h4 class="fw-bold text-white mb-3">2. Analysis of Competing Hypotheses (ACH)</h4>
+            <p class="text-secondary">
+                Adapted from Richards Heuer's seminal methodology for intelligence analysis, TraceIQ Nexus treats alternative scenarios as equally subject to falsification. The platform tracks supporting and contradicting evidence independently, refusing to convert tally counts into probabilistic truth values.
+            </p>
+        </div>
+
+        <div class="card-nexus">
+            <h4 class="fw-bold text-white mb-3">3. Cryptographic Integrity vs Legal Chain of Custody</h4>
+            <p class="text-secondary mb-0">
+                While TraceIQ Nexus implements genuine SHA-256 cryptographic verification using Python <code>hashlib</code>, it explicitly documents that local hash matching does not constitute legally certified chain of custody. Real forensic workflows require certified write-blockers, sealed physical acquisition containers, and tamper-resistant cryptographic audit logs.
+            </p>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card-nexus">
+            <h5 class="fw-bold text-white mb-3">Key Technical Limitations</h5>
+            <ul class="text-secondary small ps-3 mb-0">
+                <li class="mb-2"><strong>Synthetic Data:</strong> Case TQN-2026-001 uses purely fictional telemetry.</li>
+                <li class="mb-2"><strong>Deterministic Rules:</strong> Corroboration relies on explicit rule logic rather than statistical machine learning.</li>
+                <li class="mb-2"><strong>SQLite Storage:</strong> Local database can be edited by privileged local system accounts.</li>
+                <li class="mb-2"><strong>Single Investigator:</strong> Prototype is designed for single-analyst educational lab evaluation.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

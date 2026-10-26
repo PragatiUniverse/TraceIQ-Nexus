@@ -1,0 +1,1056 @@
+{
+  "case_info": {
+    "case_id": "TQN-2026-001",
+    "title": "The Missing Research Files",
+    "category": "Educational Digital Forensics Simulation",
+    "status": "Demonstration Only",
+    "created_at": "2026-10-26T01:00:00Z",
+    "disclaimer": "This scenario and all associated artifacts, logs, timestamps, IP addresses, and personnel names are entirely fictional and synthesized for educational forensics research and demonstration.",
+    "core_principle": "A suspicious pattern is not proof of wrongdoing. Every finding must have a traceable basis, limitations, and a way for a human reviewer to challenge it."
+  },
+  "entities": [
+    {
+      "id": "ENT-001",
+      "name": "Dr. Elena Rostova",
+      "role": "Lead Quantum Cryptographer",
+      "type": "PERSONNEL",
+      "badge_id": "BDG-8812",
+      "workstation": "WS-LAB-04",
+      "ip_address": "192.0.2.85",
+      "notes": "Principal investigator on quantum protocol research."
+    },
+    {
+      "id": "ENT-002",
+      "name": "Marcus Vance",
+      "role": "Systems Administrator & Infrastructure Lead",
+      "type": "PERSONNEL",
+      "badge_id": "BDG-3304",
+      "workstation": "WS-ADM-01",
+      "ip_address": "192.0.2.10",
+      "notes": "Responsible for scheduled maintenance and automated backups."
+    },
+    {
+      "id": "ENT-003",
+      "name": "Sarah Chen",
+      "role": "Postgraduate Research Assistant",
+      "type": "PERSONNEL",
+      "badge_id": "BDG-9941",
+      "workstation": "WS-LAB-02",
+      "ip_address": "192.0.2.44",
+      "notes": "Maintained Git repository and local build scripts."
+    },
+    {
+      "id": "ENT-004",
+      "name": "DevSecOps Maintenance Bot",
+      "role": "Scheduled Sync & Backup Daemon",
+      "type": "AUTOMATION",
+      "badge_id": "N/A",
+      "workstation": "SVR-VAULT-01",
+      "ip_address": "192.0.2.1",
+      "notes": "Runs cron job nightly_sync.sh at 02:00 UTC."
+    },
+    {
+      "id": "ENT-005",
+      "name": "External Gateway Host",
+      "role": "External SSH / VPN Remote Endpoint",
+      "type": "NETWORK_HOST",
+      "badge_id": "N/A",
+      "workstation": "REMOTE",
+      "ip_address": "198.51.100.42",
+      "notes": "RFC 5737 documentation address representing remote access point."
+    },
+    {
+      "id": "ENT-006",
+      "name": "SVR-VAULT-01",
+      "role": "Primary Research Storage Server",
+      "type": "SERVER",
+      "badge_id": "RACK-A4",
+      "workstation": "SVR-VAULT-01",
+      "ip_address": "192.0.2.1",
+      "notes": "Houses sensitive quantum protocol dataset. Clock offset +3200ms."
+    },
+    {
+      "id": "ENT-007",
+      "name": "NAS-STORAGE-09",
+      "role": "Offsite Secondary Storage Appliance",
+      "type": "BACKUP_TARGET",
+      "badge_id": "RACK-B2",
+      "workstation": "NAS-STORAGE-09",
+      "ip_address": "203.0.113.15",
+      "notes": "Destination for nocturnal backup archival rsync."
+    }
+  ],
+  "evidence_records": [
+    {
+      "id": "EVD-001",
+      "source_artifact": "fw-core-20261026.log",
+      "title": "Core Firewall Inbound SSH Connection Log",
+      "category": "NETWORK_TELEMETRY",
+      "collection_timestamp": "2026-10-26T01:15:22Z",
+      "import_timestamp": "2026-10-26T03:00:00Z",
+      "timezone_status": "UTC_EXPLICIT",
+      "reference_hash": "a1b2c3d4e5f60718293a4b5c6d7e8f90123456789abcdef0123456789abcdef0",
+      "calculated_hash": "a1b2c3d4e5f60718293a4b5c6d7e8f90123456789abcdef0123456789abcdef0",
+      "integrity_status": "MATCHES_REFERENCE",
+      "description": "Inbound TCP SYN packets on port 22 from 198.51.100.42 to 192.0.2.1 accepted per bastion rule 14B."
+    },
+    {
+      "id": "EVD-002",
+      "source_artifact": "ad_security_event_4624.evtx",
+      "title": "Active Directory Logon Event (ID 4624)",
+      "category": "AUTHENTICATION",
+      "collection_timestamp": "2026-10-26T01:20:00Z",
+      "import_timestamp": "2026-10-26T03:00:00Z",
+      "timezone_status": "UTC_EXPLICIT",
+      "reference_hash": "b2c3d4e5f6a10718293a4b5c6d7e8f90123456789abcdef0123456789abcdef1",
+      "calculated_hash": "b2c3d4e5f6a10718293a4b5c6d7e8f90123456789abcdef0123456789abcdef1",
+      "integrity_status": "MATCHES_REFERENCE",
+      "description": "Logon type 10 (RemoteInteractive) for user mvance from IP 192.0.2.10."
+    },
+    {
+      "id": "EVD-003",
+      "source_artifact": "phys_access_reader_south.csv",
+      "title": "Physical Badge Reader Log — South Lab Portal",
+      "category": "PHYSICAL_SECURITY",
+      "collection_timestamp": "2026-10-26T01:22:15Z",
+      "import_timestamp": "2026-10-26T03:00:00Z",
+      "timezone_status": "UTC_EXPLICIT",
+      "reference_hash": "c3d4e5f6a1b20718293a4b5c6d7e8f90123456789abcdef0123456789abcdef2",
+      "calculated_hash": "c3d4e5f6a1b20718293a4b5c6d7e8f90123456789abcdef0123456789abcdef2",
+      "integrity_status": "MATCHES_REFERENCE",
+      "description": "Badge BDG-8812 (Dr. Elena Rostova) verified entry at South Lab Door."
+    },
+    {
+      "id": "EVD-004",
+      "source_artifact": "bash_history_root_ws04.txt",
+      "title": "Workstation WS-LAB-04 Root Bash History",
+      "category": "SYSTEM_LOG",
+      "collection_timestamp": "2026-10-26T01:30:10Z",
+      "import_timestamp": "2026-10-26T03:00:00Z",
+      "timezone_status": "LOCAL_SYSTEM_TIME_UNCERTAIN",
+      "reference_hash": "d4e5f6a1b2c30718293a4b5c6d7e8f90123456789abcdef0123456789abcdef3",
+      "calculated_hash": "d4e5f6a1b2c30718293a4b5c6d7e8f90123456789abcdef0123456789abcdef3",
+      "integrity_status": "MATCHES_REFERENCE",
+      "description": "Shell commands invoking rsync to local mount point /mnt/backup and export HISTFILESIZE=0."
+    },
+    {
+      "id": "EVD-005",
+      "source_artifact": "ext4_journal_dump.raw",
+      "title": "Ext4 Inode Allocation Journal Dump",
+      "category": "FILE_SYSTEM",
+      "collection_timestamp": "2026-10-26T01:38:00Z",
+      "import_timestamp": "2026-10-26T03:00:00Z",
+      "timezone_status": "UTC_EXPLICIT",
+      "reference_hash": "e5f6a1b2c3d40718293a4b5c6d7e8f90123456789abcdef0123456789abcdef4",
+      "calculated_hash": "e5f6a1b2c3d40718293a4b5c6d7e8f90123456789abcdef0123456789abcdef4",
+      "integrity_status": "MATCHES_REFERENCE",
+      "description": "Unlink record for inode #482910 corresponding to quantum_protocol_v3.pdf in /srv/quantum/specs."
+    },
+    {
+      "id": "EVD-006",
+      "source_artifact": "crontab_root_vault.cfg",
+      "title": "SVR-VAULT-01 Root Crontab Configuration",
+      "category": "CONFIG",
+      "collection_timestamp": "2026-10-26T01:00:00Z",
+      "import_timestamp": "2026-10-26T03:00:00Z",
+      "timezone_status": "UTC_EXPLICIT",
+      "reference_hash": "f6a1b2c3d4e50718293a4b5c6d7e8f90123456789abcdef0123456789abcdef5",
+      "calculated_hash": "f6a1b2c3d4e50718293a4b5c6d7e8f90123456789abcdef0123456789abcdef5",
+      "integrity_status": "MATCHES_REFERENCE",
+      "description": "Active scheduled job: 0 2 * * * /usr/local/bin/nightly_sync.sh --compress --target=NAS-09."
+    },
+    {
+      "id": "EVD-007",
+      "source_artifact": "ipfix_flow_capture.pcapng",
+      "title": "NetFlow Session Telemetry Record",
+      "category": "NETWORK_TELEMETRY",
+      "collection_timestamp": "2026-10-26T02:02:10Z",
+      "import_timestamp": "2026-10-26T03:00:00Z",
+      "timezone_status": "UTC_EXPLICIT",
+      "reference_hash": "0718293a4b5c6d7e8f90123456789abcdef0123456789abcdef0a1b2c3d4e5f6",
+      "calculated_hash": "0718293a4b5c6d7e8f90123456789abcdef0123456789abcdef0a1b2c3d4e5f6",
+      "integrity_status": "MATCHES_REFERENCE",
+      "description": "High throughput flow (4.2GB transferred) from 192.0.2.1:49210 to 203.0.113.15:873 (rsync)."
+    },
+    {
+      "id": "EVD-008",
+      "source_artifact": "tls_handshake_nginx.log",
+      "title": "TLS Handshake Reverse Proxy Access Log",
+      "category": "NETWORK_TELEMETRY",
+      "collection_timestamp": "2026-10-26T01:40:00Z",
+      "import_timestamp": "2026-10-26T03:00:00Z",
+      "timezone_status": "UTC_EXPLICIT",
+      "reference_hash": "18293a4b5c6d7e8f90123456789abcdef0123456789abcdef01b2c3d4e5f6a107",
+      "calculated_hash": "18293a4b5c6d7e8f90123456789abcdef0123456789abcdef01b2c3d4e5f6a107",
+      "integrity_status": "MATCHES_REFERENCE",
+      "description": "mTLS session established using client cert CN=svc-daemon-guest. Note: CN not found in employee directory."
+    },
+    {
+      "id": "EVD-009",
+      "source_artifact": "phys_access_reader_south.csv",
+      "title": "Physical Badge Reader Log — South Lab Portal (Exit)",
+      "category": "PHYSICAL_SECURITY",
+      "collection_timestamp": "2026-10-26T01:45:00Z",
+      "import_timestamp": "2026-10-26T03:00:00Z",
+      "timezone_status": "UTC_EXPLICIT",
+      "reference_hash": "293a4b5c6d7e8f90123456789abcdef0123456789abcdef012c3d4e5f6a1b20718",
+      "calculated_hash": "293a4b5c6d7e8f90123456789abcdef0123456789abcdef012c3d4e5f6a1b20718",
+      "integrity_status": "MATCHES_REFERENCE",
+      "description": "Badge BDG-8812 (Dr. Elena Rostova) scanned at turnstile EXIT at 01:45:00Z."
+    },
+    {
+      "id": "EVD-010",
+      "source_artifact": "vpn_gateway_radius.log",
+      "title": "RADIUS VPN Authentication Session Record",
+      "category": "AUTHENTICATION",
+      "collection_timestamp": "2026-10-26T01:12:00Z",
+      "import_timestamp": "2026-10-26T03:00:00Z",
+      "timezone_status": "UTC_EXPLICIT",
+      "reference_hash": "3a4b5c6d7e8f90123456789abcdef0123456789abcdef0123d4e5f6a1b2c307182",
+      "calculated_hash": "3a4b5c6d7e8f90123456789abcdef0123456789abcdef0123d4e5f6a1b2c307182",
+      "integrity_status": "MATCHES_REFERENCE",
+      "description": "Tunnel ID 99201 assigned to 198.51.100.42 using split tunnel routing."
+    },
+    {
+      "id": "EVD-011",
+      "source_artifact": "quantum_protocol_v3.pdf",
+      "title": "Research Specification Document (Original Reference)",
+      "category": "FILE_INTEGRITY",
+      "collection_timestamp": "2026-10-25T18:00:00Z",
+      "import_timestamp": "2026-10-26T03:00:00Z",
+      "timezone_status": "UTC_EXPLICIT",
+      "reference_hash": "2e6c0ed1e24cb07944da1d22a2c9d0c7334837cb1c14dd308e46d17e0dd0b6b0",
+      "calculated_hash": "2e6c0ed1e24cb07944da1d22a2c9d0c7334837cb1c14dd308e46d17e0dd0b6b0",
+      "integrity_status": "MATCHES_REFERENCE",
+      "description": "Original master quantum specification document deposited into laboratory repository."
+    },
+    {
+      "id": "EVD-012",
+      "source_artifact": "quantum_protocol_v3_tampered.pdf",
+      "title": "Recovered Incomplete Vault Copy (Tampered / Altered)",
+      "category": "FILE_INTEGRITY",
+      "collection_timestamp": "2026-10-26T02:40:00Z",
+      "import_timestamp": "2026-10-26T03:00:00Z",
+      "timezone_status": "UTC_EXPLICIT",
+      "reference_hash": "2e6c0ed1e24cb07944da1d22a2c9d0c7334837cb1c14dd308e46d17e0dd0b6b0",
+      "calculated_hash": "cd894c542077025c9c56004a1b265d64100dc721c1ed65fddf0101fa1612966a",
+      "integrity_status": "DIFFERS_FROM_REFERENCE",
+      "description": "Recovered file from backup snapshot with byte differences in header blocks. SHA-256 differs from reference."
+    },
+    {
+      "id": "EVD-013",
+      "source_artifact": "auditd_syscall.log",
+      "title": "Linux Auditd Syscall Log — chmod Permissive Change",
+      "category": "SYSTEM_LOG",
+      "collection_timestamp": "2026-10-26T01:32:00Z",
+      "import_timestamp": "2026-10-26T03:00:00Z",
+      "timezone_status": "UTC_EXPLICIT",
+      "reference_hash": "5c6d7e8f90123456789abcdef0123456789abcdef01234567f6a1b2c3d4e5071829",
+      "calculated_hash": "5c6d7e8f90123456789abcdef0123456789abcdef01234567f6a1b2c3d4e5071829",
+      "integrity_status": "MATCHES_REFERENCE",
+      "description": "Command `chmod 777 /srv/quantum/specs` invoked under uid=0."
+    },
+    {
+      "id": "EVD-014",
+      "source_artifact": "exchange_msg_maint_notice.eml",
+      "title": "Maintenance Notification Email by Marcus Vance",
+      "category": "COMMUNICATION",
+      "collection_timestamp": "2026-10-25T16:00:00Z",
+      "import_timestamp": "2026-10-26T03:00:00Z",
+      "timezone_status": "UTC_EXPLICIT",
+      "reference_hash": "6d7e8f90123456789abcdef0123456789abcdef01234567890718293a4b5c6d7e8f",
+      "calculated_hash": "6d7e8f90123456789abcdef0123456789abcdef01234567890718293a4b5c6d7e8f",
+      "integrity_status": "MATCHES_REFERENCE",
+      "description": "Broadcast message: 'Scheduled storage migration & drive replacement for SVR-VAULT-01 tonight at 02:00 UTC.'"
+    },
+    {
+      "id": "EVD-015",
+      "source_artifact": "git_commit_log.json",
+      "title": "Git Commit Record a4f91c2 by Sarah Chen",
+      "category": "CODE_REPOSITORY",
+      "collection_timestamp": "2026-10-25T20:45:00Z",
+      "import_timestamp": "2026-10-26T03:00:00Z",
+      "timezone_status": "UTC_EXPLICIT",
+      "reference_hash": "7e8f90123456789abcdef0123456789abcdef0123456789ab18293a4b5c6d7e8f90",
+      "calculated_hash": "7e8f90123456789abcdef0123456789abcdef0123456789ab18293a4b5c6d7e8f90",
+      "integrity_status": "MATCHES_REFERENCE",
+      "description": "Commit comment: 'Archive preliminary draft before protocol freeze.'"
+    },
+    {
+      "id": "EVD-016",
+      "source_artifact": "win_security_lock.evtx",
+      "title": "Workstation Screen Lock Event on WS-LAB-04",
+      "category": "SYSTEM_LOG",
+      "collection_timestamp": "2026-10-26T01:43:00Z",
+      "import_timestamp": "2026-10-26T03:00:00Z",
+      "timezone_status": "UTC_EXPLICIT",
+      "reference_hash": "8f90123456789abcdef0123456789abcdef0123456789abcdef293a4b5c6d7e8f901",
+      "calculated_hash": "8f90123456789abcdef0123456789abcdef0123456789abcdef293a4b5c6d7e8f901",
+      "integrity_status": "MATCHES_REFERENCE",
+      "description": "Screen lock workstation session initiated on WS-LAB-04 by Dr. Elena Rostova."
+    },
+    {
+      "id": "EVD-017",
+      "source_artifact": "dhcpd_leases.conf",
+      "title": "DHCP Server Lease Record",
+      "category": "NETWORK_TELEMETRY",
+      "collection_timestamp": "2026-10-26T00:00:00Z",
+      "import_timestamp": "2026-10-26T03:00:00Z",
+      "timezone_status": "UTC_EXPLICIT",
+      "reference_hash": "90123456789abcdef0123456789abcdef0123456789abcdef013a4b5c6d7e8f90123",
+      "calculated_hash": "90123456789abcdef0123456789abcdef0123456789abcdef013a4b5c6d7e8f90123",
+      "integrity_status": "MATCHES_REFERENCE",
+      "description": "Static lease binding IP 192.0.2.85 to MAC 00:50:56:A1:B2:C3 (WS-LAB-04)."
+    },
+    {
+      "id": "EVD-018",
+      "source_artifact": "named_bind_query.log",
+      "title": "Internal DNS Resolver Query Log",
+      "category": "NETWORK_TELEMETRY",
+      "collection_timestamp": "2026-10-26T01:35:00Z",
+      "import_timestamp": "2026-10-26T03:00:00Z",
+      "timezone_status": "UTC_EXPLICIT",
+      "reference_hash": "0123456789abcdef0123456789abcdef0123456789abcdef01234b5c6d7e8f901234",
+      "calculated_hash": "0123456789abcdef0123456789abcdef0123456789abcdef01234b5c6d7e8f901234",
+      "integrity_status": "MATCHES_REFERENCE",
+      "description": "DNS query for internal-vault.quantum.internal resolved to 192.0.2.1."
+    },
+    {
+      "id": "EVD-019",
+      "source_artifact": "squid_proxy_access.log",
+      "title": "HTTP Proxy Egress Log",
+      "category": "NETWORK_TELEMETRY",
+      "collection_timestamp": "2026-10-26T01:36:10Z",
+      "import_timestamp": "2026-10-26T03:00:00Z",
+      "timezone_status": "UTC_EXPLICIT",
+      "reference_hash": "123456789abcdef0123456789abcdef0123456789abcdef012345b5c6d7e8f901235",
+      "calculated_hash": "123456789abcdef0123456789abcdef0123456789abcdef012345b5c6d7e8f901235",
+      "integrity_status": "MATCHES_REFERENCE",
+      "description": "CONNECT tunnel request to external code mirror permitted under research policy."
+    },
+    {
+      "id": "EVD-020",
+      "source_artifact": "smartd_disk_alert.log",
+      "title": "Disk S.M.A.R.T. Degradation Alert on SVR-VAULT-01",
+      "category": "HARDWARE_STATUS",
+      "collection_timestamp": "2026-10-26T01:10:00Z",
+      "import_timestamp": "2026-10-26T03:00:00Z",
+      "timezone_status": "UTC_EXPLICIT",
+      "reference_hash": "23456789abcdef0123456789abcdef0123456789abcdef0123456c6d7e8f901236",
+      "calculated_hash": "23456789abcdef0123456789abcdef0123456789abcdef0123456c6d7e8f901236",
+      "integrity_status": "MATCHES_REFERENCE",
+      "description": "Drive /dev/sdb reported 14 reallocated sectors. Auto-migration trigger flagged."
+    },
+    {
+      "id": "EVD-021",
+      "source_artifact": "apcupsd_event.log",
+      "title": "Lab UPS Power Quality Log",
+      "category": "ENVIRONMENTAL",
+      "collection_timestamp": "2026-10-26T01:25:00Z",
+      "import_timestamp": "2026-10-26T03:00:00Z",
+      "timezone_status": "UTC_EXPLICIT",
+      "reference_hash": "3456789abcdef0123456789abcdef0123456789abcdef012345676d7e8f901237",
+      "calculated_hash": "3456789abcdef0123456789abcdef0123456789abcdef012345676d7e8f901237",
+      "integrity_status": "MATCHES_REFERENCE",
+      "description": "Minor voltage dip detected (208V to 196V for 320ms); battery backup engaged seamlessly."
+    },
+    {
+      "id": "EVD-022",
+      "source_artifact": "cctv_hallway_cam02.meta",
+      "title": "CCTV Timestamp & Motion Metadata Log",
+      "category": "PHYSICAL_SECURITY",
+      "collection_timestamp": "2026-10-26T01:45:02Z",
+      "import_timestamp": "2026-10-26T03:00:00Z",
+      "timezone_status": "UTC_EXPLICIT",
+      "reference_hash": "456789abcdef0123456789abcdef0123456789abcdef012345678d7e8f901238",
+      "calculated_hash": "456789abcdef0123456789abcdef0123456789abcdef012345678d7e8f901238",
+      "integrity_status": "MATCHES_REFERENCE",
+      "description": "Motion detected in South Corridor matching Dr. Elena Rostova egress at 01:45 UTC."
+    },
+    {
+      "id": "EVD-023",
+      "source_artifact": "chrony_ntp_peer.log",
+      "title": "Chrony NTP Drift & Offset Log on SVR-VAULT-01",
+      "category": "SYSTEM_LOG",
+      "collection_timestamp": "2026-10-26T01:48:00Z",
+      "import_timestamp": "2026-10-26T03:00:00Z",
+      "timezone_status": "UTC_EXPLICIT",
+      "reference_hash": "56789abcdef0123456789abcdef0123456789abcdef0123456789e7e8f901239",
+      "calculated_hash": "56789abcdef0123456789abcdef0123456789abcdef0123456789e7e8f901239",
+      "integrity_status": "MATCHES_REFERENCE",
+      "description": "NTP clock skew alert: System time on SVR-VAULT-01 was running +3200ms ahead of reference stratum 1."
+    },
+    {
+      "id": "EVD-024",
+      "source_artifact": "jira_incident_8821.json",
+      "title": "Incident Ticket INC-8821 Filed by Dr. Elena Rostova",
+      "category": "INCIDENT_REPORT",
+      "collection_timestamp": "2026-10-26T02:30:00Z",
+      "import_timestamp": "2026-10-26T03:00:00Z",
+      "timezone_status": "UTC_EXPLICIT",
+      "reference_hash": "6789abcdef0123456789abcdef0123456789abcdef01234567890f7e8f90123a",
+      "calculated_hash": "6789abcdef0123456789abcdef0123456789abcdef01234567890f7e8f90123a",
+      "integrity_status": "MATCHES_REFERENCE",
+      "description": "Ticket opened: 'Unable to locate quantum_protocol_v3.pdf in master directory. Please assist.'"
+    },
+    {
+      "id": "EVD-025",
+      "source_artifact": "env_profile_bashrc.txt",
+      "title": "Environment Variable Profile on WS-LAB-04",
+      "category": "CONFIG",
+      "collection_timestamp": "2026-10-26T02:00:00Z",
+      "import_timestamp": "2026-10-26T03:00:00Z",
+      "timezone_status": "UTC_EXPLICIT",
+      "reference_hash": "789abcdef0123456789abcdef0123456789abcdef01234567890108e8f90123b",
+      "calculated_hash": "789abcdef0123456789abcdef0123456789abcdef01234567890108e8f90123b",
+      "integrity_status": "MATCHES_REFERENCE",
+      "description": "Test automation script explicitly configured HISTFILESIZE=0 to prevent disk filling on test runs."
+    },
+    {
+      "id": "EVD-026",
+      "source_artifact": "s3_minio_snapshot.json",
+      "title": "Object Storage Bucket Manifest Snapshot",
+      "category": "FILE_SYSTEM",
+      "collection_timestamp": "2026-10-26T01:50:00Z",
+      "import_timestamp": "2026-10-26T03:00:00Z",
+      "timezone_status": "UTC_EXPLICIT",
+      "reference_hash": "89abcdef0123456789abcdef0123456789abcdef012345678901219e8f90123c",
+      "calculated_hash": "89abcdef0123456789abcdef0123456789abcdef012345678901219e8f90123c",
+      "integrity_status": "MATCHES_REFERENCE",
+      "description": "Research repository bucket metadata export shows version pointer pinned to commit a4f91c2."
+    },
+    {
+      "id": "EVD-027",
+      "source_artifact": "udev_usb_mount.log",
+      "title": "Kernel UDev USB Block Device Event Log",
+      "category": "SYSTEM_LOG",
+      "collection_timestamp": "2026-10-26T01:28:10Z",
+      "import_timestamp": "2026-10-26T03:00:00Z",
+      "timezone_status": "UTC_EXPLICIT",
+      "reference_hash": "9abcdef0123456789abcdef0123456789abcdef0123456789012320e8f90123d",
+      "calculated_hash": "9abcdef0123456789abcdef0123456789abcdef0123456789012320e8f90123d",
+      "integrity_status": "MATCHES_REFERENCE",
+      "description": "USB device insertion: SanDisk Extreme Pro 64GB (Serial: AA010928371) mounted at /mnt/usb."
+    },
+    {
+      "id": "EVD-028",
+      "source_artifact": "systemd_sleep_hook.log",
+      "title": "Systemd Power State Transition Log",
+      "category": "SYSTEM_LOG",
+      "collection_timestamp": "2026-10-26T01:46:12Z",
+      "import_timestamp": "2026-10-26T03:00:00Z",
+      "timezone_status": "UTC_EXPLICIT",
+      "reference_hash": "abcdef0123456789abcdef0123456789abcdef01234567890123431e8f90123e",
+      "calculated_hash": "abcdef0123456789abcdef0123456789abcdef01234567890123431e8f90123e",
+      "integrity_status": "MATCHES_REFERENCE",
+      "description": "Workstation WS-LAB-04 entered S3 suspend sleep state following screen lock."
+    }
+  ],
+  "events": [
+    {
+      "id": "EVT-001",
+      "timestamp": "2026-10-25T16:00:00Z",
+      "timezone_status": "UTC_EXPLICIT",
+      "event_type": "COMMUNICATION",
+      "entity_id": "ENT-002",
+      "evidence_id": "EVD-014",
+      "summary": "Marcus Vance sent scheduled maintenance notification",
+      "details": "Broadcast email advising research team of tonight's 02:00 UTC storage sync and migration.",
+      "is_conflicting": false,
+      "hypothetical_timestamp": null
+    },
+    {
+      "id": "EVT-002",
+      "timestamp": "2026-10-25T18:00:00Z",
+      "timezone_status": "UTC_EXPLICIT",
+      "event_type": "FILE_SYSTEM",
+      "entity_id": "ENT-001",
+      "evidence_id": "EVD-011",
+      "summary": "Dr. Elena Rostova deposited quantum_protocol_v3.pdf reference draft",
+      "details": "Master research protocol PDF saved to vault directory with verified SHA-256.",
+      "is_conflicting": false,
+      "hypothetical_timestamp": null
+    },
+    {
+      "id": "EVT-003",
+      "timestamp": "2026-10-25T20:45:00Z",
+      "timezone_status": "UTC_EXPLICIT",
+      "event_type": "CODE_REPOSITORY",
+      "entity_id": "ENT-003",
+      "evidence_id": "EVD-015",
+      "summary": "Sarah Chen committed protocol revisions in Git repository",
+      "details": "Commit a4f91c2 pushed to master branch containing code references to protocol specs.",
+      "is_conflicting": false,
+      "hypothetical_timestamp": null
+    },
+    {
+      "id": "EVT-004",
+      "timestamp": "2026-10-26T00:00:00Z",
+      "timezone_status": "UTC_EXPLICIT",
+      "event_type": "NETWORK",
+      "entity_id": "ENT-001",
+      "evidence_id": "EVD-017",
+      "summary": "DHCP lease renewed for WS-LAB-04",
+      "details": "Assigned internal IP 192.0.2.85.",
+      "is_conflicting": false,
+      "hypothetical_timestamp": null
+    },
+    {
+      "id": "EVT-005",
+      "timestamp": "2026-10-26T01:00:00Z",
+      "timezone_status": "UTC_EXPLICIT",
+      "event_type": "CONFIG",
+      "entity_id": "ENT-004",
+      "evidence_id": "EVD-006",
+      "summary": "Cron daemon loaded nightly sync schedule",
+      "details": "Scheduled rsync job armed for execution at 02:00:00 UTC.",
+      "is_conflicting": false,
+      "hypothetical_timestamp": null
+    },
+    {
+      "id": "EVT-006",
+      "timestamp": "2026-10-26T01:10:00Z",
+      "timezone_status": "UTC_EXPLICIT",
+      "event_type": "HARDWARE",
+      "entity_id": "ENT-006",
+      "evidence_id": "EVD-020",
+      "summary": "S.M.A.R.T. alert reported reallocated sectors on SVR-VAULT-01",
+      "details": "Storage drive /dev/sdb degradation warning triggered auto-evacuation protocol.",
+      "is_conflicting": false,
+      "hypothetical_timestamp": null
+    },
+    {
+      "id": "EVT-007",
+      "timestamp": "2026-10-26T01:12:00Z",
+      "timezone_status": "UTC_EXPLICIT",
+      "event_type": "AUTH",
+      "entity_id": "ENT-005",
+      "evidence_id": "EVD-010",
+      "summary": "VPN split-tunnel session initiated from 198.51.100.42",
+      "details": "Remote connection authenticated through external gateway RADIUS interface.",
+      "is_conflicting": false,
+      "hypothetical_timestamp": null
+    },
+    {
+      "id": "EVT-008",
+      "timestamp": "2026-10-26T01:15:22Z",
+      "timezone_status": "UTC_EXPLICIT",
+      "event_type": "NETWORK",
+      "entity_id": "ENT-005",
+      "evidence_id": "EVD-001",
+      "summary": "Inbound SSH connection attempted from 198.51.100.42",
+      "details": "Targeted port 22 on SVR-VAULT-01.",
+      "is_conflicting": false,
+      "hypothetical_timestamp": null
+    },
+    {
+      "id": "EVT-009",
+      "timestamp": "2026-10-26T01:20:00Z",
+      "timezone_status": "UTC_EXPLICIT",
+      "event_type": "AUTH",
+      "entity_id": "ENT-002",
+      "evidence_id": "EVD-002",
+      "summary": "Marcus Vance authenticated via Remote Desktop (AD Event 4624)",
+      "details": "Admin session opened to begin pre-maintenance storage diagnostics.",
+      "is_conflicting": false,
+      "hypothetical_timestamp": null
+    },
+    {
+      "id": "EVT-010",
+      "timestamp": "2026-10-26T01:22:15Z",
+      "timezone_status": "UTC_EXPLICIT",
+      "event_type": "PHYSICAL",
+      "entity_id": "ENT-001",
+      "evidence_id": "EVD-003",
+      "summary": "Dr. Elena Rostova entered South Lab Door",
+      "details": "Badge BDG-8812 scanned at entrance turnstile.",
+      "is_conflicting": false,
+      "hypothetical_timestamp": null
+    },
+    {
+      "id": "EVT-011",
+      "timestamp": "2026-10-26T01:25:00Z",
+      "timezone_status": "UTC_EXPLICIT",
+      "event_type": "ENVIRONMENTAL",
+      "entity_id": "ENT-006",
+      "evidence_id": "EVD-021",
+      "summary": "Lab UPS momentary voltage dip",
+      "details": "Grid fluctuation absorbed by lab battery backup system.",
+      "is_conflicting": false,
+      "hypothetical_timestamp": null
+    },
+    {
+      "id": "EVT-012",
+      "timestamp": "2026-10-26T01:28:10Z",
+      "timezone_status": "UTC_EXPLICIT",
+      "event_type": "HARDWARE",
+      "entity_id": "ENT-001",
+      "evidence_id": "EVD-027",
+      "summary": "SanDisk 64GB USB storage device mounted on WS-LAB-04",
+      "details": "Removable media mounted by logged-in researcher for offline data backup.",
+      "is_conflicting": false,
+      "hypothetical_timestamp": null
+    },
+    {
+      "id": "EVT-013",
+      "timestamp": "2026-10-26T01:30:10Z",
+      "timezone_status": "LOCAL_SYSTEM_TIME_UNCERTAIN",
+      "event_type": "SYSTEM_LOG",
+      "entity_id": "ENT-001",
+      "evidence_id": "EVD-004",
+      "summary": "Shell command executed on WS-LAB-04: rsync to local backup mount",
+      "details": "Command history captures manual rsync of working files to /mnt/backup.",
+      "is_conflicting": false,
+      "hypothetical_timestamp": null
+    },
+    {
+      "id": "EVT-014",
+      "timestamp": "2026-10-26T01:32:00Z",
+      "timezone_status": "UTC_EXPLICIT",
+      "event_type": "CONFIG",
+      "entity_id": "ENT-002",
+      "evidence_id": "EVD-013",
+      "summary": "Directory permissions changed: chmod 777 /srv/quantum/specs",
+      "details": "Syscall audit captures wide permission modification to allow daemon rsync migration.",
+      "is_conflicting": false,
+      "hypothetical_timestamp": null
+    },
+    {
+      "id": "EVT-015",
+      "timestamp": "2026-10-26T01:35:00Z",
+      "timezone_status": "UTC_EXPLICIT",
+      "event_type": "NETWORK",
+      "entity_id": "ENT-001",
+      "evidence_id": "EVD-018",
+      "summary": "DNS query for internal-vault.quantum.internal",
+      "details": "Resolved to 192.0.2.1.",
+      "is_conflicting": false,
+      "hypothetical_timestamp": null
+    },
+    {
+      "id": "EVT-016",
+      "timestamp": "2026-10-26T01:36:10Z",
+      "timezone_status": "UTC_EXPLICIT",
+      "event_type": "NETWORK",
+      "entity_id": "ENT-003",
+      "evidence_id": "EVD-019",
+      "summary": "HTTP proxy egress request to code repository mirror",
+      "details": "Sync of repository documentation assets.",
+      "is_conflicting": false,
+      "hypothetical_timestamp": null
+    },
+    {
+      "id": "EVT-017",
+      "timestamp": "2026-10-26T01:38:00Z",
+      "timezone_status": "UTC_EXPLICIT",
+      "event_type": "FILE_SYSTEM",
+      "entity_id": "ENT-004",
+      "evidence_id": "EVD-005",
+      "summary": "Ext4 journal recorded inode #482910 unlinked",
+      "details": "The file quantum_protocol_v3.pdf was unlinked during archive rotation.",
+      "is_conflicting": false,
+      "hypothetical_timestamp": null
+    },
+    {
+      "id": "EVT-018",
+      "timestamp": "2026-10-26T01:40:00Z",
+      "timezone_status": "UTC_EXPLICIT",
+      "event_type": "AUTH",
+      "entity_id": "ENT-005",
+      "evidence_id": "EVD-008",
+      "summary": "mTLS handshake established with certificate CN=svc-daemon-guest",
+      "details": "Reverse proxy reverse TLS session accepted; user account unknown in LDAP.",
+      "is_conflicting": false,
+      "hypothetical_timestamp": null
+    },
+    {
+      "id": "EVT-019",
+      "timestamp": "2026-10-26T01:43:00Z",
+      "timezone_status": "UTC_EXPLICIT",
+      "event_type": "SYSTEM_LOG",
+      "entity_id": "ENT-001",
+      "evidence_id": "EVD-016",
+      "summary": "Workstation screen locked on WS-LAB-04",
+      "details": "Dr. Elena Rostova secured the terminal prior to leaving lab.",
+      "is_conflicting": false,
+      "hypothetical_timestamp": null
+    },
+    {
+      "id": "EVT-020",
+      "timestamp": "2026-10-26T01:45:00Z",
+      "timezone_status": "UTC_EXPLICIT",
+      "event_type": "PHYSICAL",
+      "entity_id": "ENT-001",
+      "evidence_id": "EVD-009",
+      "summary": "Dr. Elena Rostova exited South Lab Door (Turnstile scan)",
+      "details": "Physical security access record confirms Dr. Rostova departed the secure facility at 01:45:00Z.",
+      "is_conflicting": true,
+      "hypothetical_timestamp": "2026-10-26T01:45:00Z"
+    },
+    {
+      "id": "EVT-021",
+      "timestamp": "2026-10-26T01:46:12Z",
+      "timezone_status": "UTC_EXPLICIT",
+      "event_type": "SYSTEM_LOG",
+      "entity_id": "ENT-001",
+      "evidence_id": "EVD-028",
+      "summary": "WS-LAB-04 transitioned into S3 sleep state",
+      "details": "Workstation low-power standby engaged.",
+      "is_conflicting": false,
+      "hypothetical_timestamp": null
+    },
+    {
+      "id": "EVT-022",
+      "timestamp": "2026-10-26T01:47:15Z",
+      "timezone_status": "UTC_OFFSET_AFFECTED (+3200ms skew)",
+      "event_type": "SYSTEM_LOG",
+      "entity_id": "ENT-001",
+      "evidence_id": "EVD-004",
+      "summary": "[FLAGGED CONFLICT] Recorded console activity attributed to Dr. Rostova on SVR-VAULT-01",
+      "details": "Recorded timestamp 01:47:15 appears 2 minutes AFTER physical exit at 01:45:00Z. Caused by unsynchronized clock (+3200ms skew) on SVR-VAULT-01 and delayed buffered syslog flush.",
+      "is_conflicting": true,
+      "hypothetical_timestamp": "2026-10-26T01:44:02Z"
+    },
+    {
+      "id": "EVT-023",
+      "timestamp": "2026-10-26T01:48:00Z",
+      "timezone_status": "UTC_EXPLICIT",
+      "event_type": "SYSTEM_LOG",
+      "entity_id": "ENT-006",
+      "evidence_id": "EVD-023",
+      "summary": "Chrony NTP alert logged clock drift (+3200ms skew on SVR-VAULT-01)",
+      "details": "Provides the deterministic technical explanation for the apparent timestamp contradiction in EVT-022.",
+      "is_conflicting": false,
+      "hypothetical_timestamp": null
+    },
+    {
+      "id": "EVT-024",
+      "timestamp": "2026-10-26T01:50:00Z",
+      "timezone_status": "UTC_EXPLICIT",
+      "event_type": "FILE_SYSTEM",
+      "entity_id": "ENT-004",
+      "evidence_id": "EVD-026",
+      "summary": "Object storage snapshot created for quantum-vault repository",
+      "details": "Periodic automated snapshot captured storage block pointers.",
+      "is_conflicting": false,
+      "hypothetical_timestamp": null
+    },
+    {
+      "id": "EVT-025",
+      "timestamp": "2026-10-26T02:00:00Z",
+      "timezone_status": "UTC_EXPLICIT",
+      "event_type": "AUTOMATION",
+      "entity_id": "ENT-004",
+      "evidence_id": "EVD-006",
+      "summary": "Nightly sync cron job triggered automatically on SVR-VAULT-01",
+      "details": "Executed /usr/local/bin/nightly_sync.sh to push files to NAS-STORAGE-09.",
+      "is_conflicting": false,
+      "hypothetical_timestamp": null
+    },
+    {
+      "id": "EVT-026",
+      "timestamp": "2026-10-26T02:02:10Z",
+      "timezone_status": "UTC_EXPLICIT",
+      "event_type": "NETWORK",
+      "entity_id": "ENT-004",
+      "evidence_id": "EVD-007",
+      "summary": "NetFlow recorded bulk data transfer (4.2GB) to NAS-STORAGE-09",
+      "details": "Outbound rsync stream transmitted storage contents across isolated backup VLAN.",
+      "is_conflicting": false,
+      "hypothetical_timestamp": null
+    },
+    {
+      "id": "EVT-027",
+      "timestamp": "2026-10-26T02:30:00Z",
+      "timezone_status": "UTC_EXPLICIT",
+      "event_type": "INCIDENT_REPORT",
+      "entity_id": "ENT-001",
+      "evidence_id": "EVD-024",
+      "summary": "Incident ticket INC-8821 created regarding missing research protocol",
+      "details": "Dr. Rostova logged remote query noting missing file in active working directory.",
+      "is_conflicting": false,
+      "hypothetical_timestamp": null
+    },
+    {
+      "id": "EVT-028",
+      "timestamp": "2026-10-26T02:40:00Z",
+      "timezone_status": "UTC_EXPLICIT",
+      "event_type": "FILE_INTEGRITY",
+      "entity_id": "ENT-002",
+      "evidence_id": "EVD-012",
+      "summary": "Recovered backup copy inspected — SHA-256 hash mismatch detected",
+      "details": "The recovered file quantum_protocol_v3_tampered.pdf failed hash comparison against reference digest.",
+      "is_conflicting": true,
+      "hypothetical_timestamp": null
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "HYP-A",
+      "title": "Hypothesis A: Authorized Maintenance & Storage Migration Incident",
+      "summary": "The disappearance of quantum_protocol_v3.pdf was the benign byproduct of an authorized, scheduled maintenance operation executed by Systems Administrator Marcus Vance and the DevSecOps automated daemon, compounded by disk hardware degradation and an unsynchronized server clock.",
+      "supporting_evidence": ["EVD-002", "EVD-006", "EVD-007", "EVD-014", "EVD-020", "EVD-023", "EVD-026"],
+      "contradicting_evidence": ["EVD-008", "EVD-012", "EVD-013"],
+      "neutral_evidence": ["EVD-003", "EVD-015", "EVD-017", "EVD-021"],
+      "missing_information": [
+        "Complete rsync transfer exit log from nightly_sync.sh on SVR-VAULT-01.",
+        "Full uncompressed sector dump of failing drive /dev/sdb."
+      ],
+      "assumptions": [
+        "The cron job nightly_sync.sh deleted or moved the source file upon completion due to --remove-source-files flag.",
+        "The apparent post-exit activity at 01:47:15 UTC is entirely explained by NTP clock skew (+3200ms) and buffered logging."
+      ],
+      "unanswered_questions": [
+        "Why did the backup replica on NAS-STORAGE-09 have a corrupted/different SHA-256 digest?",
+        "Why was chmod 777 executed globally instead of granting access specifically to the backup service account?"
+      ],
+      "suggested_next_steps": [
+        "Inspect NAS-STORAGE-09 filesystem journals to determine if block corruption occurred in transit.",
+        "Review Marcus Vance's terminal shell history to confirm whether --remove-source-files was set in nightly_sync.sh."
+      ]
+    },
+    {
+      "id": "HYP-B",
+      "title": "Hypothesis B: Unrecognized Access Sequence & Exfiltration",
+      "summary": "An unauthorized party leveraged the external VPN split tunnel from 198.51.100.42, authenticated via an uncataloged mTLS certificate (svc-daemon-guest), took advantage of elevated permissions (chmod 777), altered or exfiltrated the quantum protocol, and removed the active file.",
+      "supporting_evidence": ["EVD-001", "EVD-008", "EVD-010", "EVD-012", "EVD-013", "EVD-027"],
+      "contradicting_evidence": ["EVD-014", "EVD-006", "EVD-020", "EVD-023"],
+      "neutral_evidence": ["EVD-002", "EVD-003", "EVD-016", "EVD-024"],
+      "missing_information": [
+        "Secondary packet capture log EVD-099 from intermediate gateway switch.",
+        "CA issuance log for client certificate CN=svc-daemon-guest."
+      ],
+      "assumptions": [
+        "The external connection from 198.51.100.42 was adversary-controlled rather than an employee working remotely.",
+        "The file mismatch indicates intentional tampering rather than storage sector corruption."
+      ],
+      "unanswered_questions": [
+        "Did the 4.2GB bulk egress flow transfer to an unauthorized remote destination, or strictly to NAS-STORAGE-09?",
+        "Who provisioned and signed the mTLS client certificate CN=svc-daemon-guest?"
+      ],
+      "suggested_next_steps": [
+        "Perform cryptographic validation of client certificate CN=svc-daemon-guest against root CA.",
+        "Examine external gateway firewall state tables to check if outbound traffic reached the public internet."
+      ]
+    }
+  ],
+  "contradiction_rules": [
+    {
+      "rule_id": "RULE-CONTR-001",
+      "rule_name": "Incompatible Physical Egress vs Console Activity",
+      "severity": "HIGH",
+      "source_evidence_ids": ["EVD-009", "EVD-004", "EVD-023"],
+      "supporting_event_ids": ["EVT-020", "EVT-022"],
+      "rule_condition": "Event timestamp(Console_Activity) > Event timestamp(Physical_Badge_Exit) FOR SAME ENTITY without intervening entrance",
+      "observed_values": "Physical Exit at 01:45:00 UTC (EVD-009) vs Recorded Console Activity at 01:47:15 UTC (EVT-022)",
+      "triggering_reason": "Console activity was attributed to Dr. Elena Rostova two minutes after her physical exit badge scan was recorded at the South lab turnstile.",
+      "alternative_explanations": [
+        "SVR-VAULT-01 was suffering from +3200ms NTP clock drift and delayed syslog buffer flushing.",
+        "A background script or queued terminal pipe finished execution after Dr. Rostova physically departed.",
+        "An unauthorized party accessed the unlocked console after Dr. Rostova left."
+      ],
+      "missing_information": "Real-time process accounting logs with monotonic kernel timestamps (CLOCK_MONOTONIC).",
+      "suggested_action": "Apply hypothetical timeline adjustment with NTP skew offset (-3200ms) to verify if commands occurred prior to exit.",
+      "limitations": "Timestamp correlation assumes both clock sources are stable. NTP slew rate during synchronization can introduce nonlinear drift."
+    },
+    {
+      "rule_id": "RULE-CONTR-002",
+      "rule_name": "Cryptographic Hash Digest Mismatch",
+      "severity": "CRITICAL",
+      "source_evidence_ids": ["EVD-011", "EVD-012"],
+      "supporting_event_ids": ["EVT-028"],
+      "rule_condition": "Calculated_SHA256(Target_File) != Reference_SHA256(Original_Manifest)",
+      "observed_values": "Reference: 2e6c0ed1e24c... | Calculated: cd894c542077... (Files differ)",
+      "triggering_reason": "The recovered file quantum_protocol_v3_tampered.pdf from the backup snapshot does not match the official reference digest of quantum_protocol_v3.pdf.",
+      "alternative_explanations": [
+        "Deliberate modification of the specification file by an unauthorized party.",
+        "Silent bit-rot or file header truncation during disk sector reallocation (/dev/sdb failure).",
+        "An incomplete rsync transfer interrupted before byte completion."
+      ],
+      "missing_information": "Intermediate chunk-level block hashes from transfer stream.",
+      "suggested_action": "Perform side-by-side hex diff inspection between original and recovered samples to isolate modified bytes.",
+      "limitations": "A hash mismatch proves the file contents differ, but cannot determine whether the difference was caused by malicious tampering, file corruption, or incomplete transfer."
+    },
+    {
+      "rule_id": "RULE-CONTR-003",
+      "rule_name": "Missing Source Evidence Reference in Event Sequence",
+      "severity": "MEDIUM",
+      "source_evidence_ids": ["EVD-099_MISSING"],
+      "supporting_event_ids": ["EVT-008"],
+      "rule_condition": "Event refers to Evidence_ID that is absent from loaded Evidence Manifest",
+      "observed_values": "Event EVT-008 references secondary switch packet capture 'EVD-099' which is unarchived",
+      "triggering_reason": "Packet capture evidence from the secondary access switch was purged due to rolling buffer retention policy.",
+      "alternative_explanations": [
+        "Normal rolling buffer retention overwrote older packet captures before preservation order arrived.",
+        "Logging level on the access switch was set to error only."
+      ],
+      "missing_information": "Secondary switch raw PCAP packet stream for port Gi0/14.",
+      "suggested_action": "Consult core firewall logs (EVD-001) as secondary corroborating network source.",
+      "limitations": "Absence of a log does not imply intentional destruction."
+    },
+    {
+      "rule_id": "RULE-CONTR-004",
+      "rule_name": "Unknown Entity Reference in TLS Authentication",
+      "severity": "MEDIUM",
+      "source_evidence_ids": ["EVD-008"],
+      "supporting_event_ids": ["EVT-018"],
+      "rule_condition": "Client_Cert_CN NOT_IN Known_Personnel_Directory",
+      "observed_values": "CN=svc-daemon-guest not found in Active Directory or service account catalog",
+      "triggering_reason": "TLS client certificate was accepted by reverse proxy without LDAP account verification.",
+      "alternative_explanations": [
+        "Legacy contractor service account left behind during third-party security audit.",
+        "Adversary generated self-signed certificate accepted due to misconfigured trust store."
+      ],
+      "missing_information": "Reverse proxy trusted CA bundle (/etc/ssl/certs/ca-certificates.crt).",
+      "suggested_action": "Inspect Certificate Authority root trust store to locate issuing authority.",
+      "limitations": "Entity uncataloged status may reflect poor documentation rather than compromise."
+    },
+    {
+      "rule_id": "RULE-CONTR-005",
+      "rule_name": "Incompatible File System Temporal Sequence",
+      "severity": "LOW",
+      "source_evidence_ids": ["EVD-005", "EVD-026"],
+      "supporting_event_ids": ["EVT-017", "EVT-024"],
+      "rule_condition": "Inode_Deallocation_Timestamp < Snapshot_Registration_Timestamp WHILE file present in snapshot metadata",
+      "observed_values": "Inode unlinked at 01:38:00 UTC while snapshot at 01:50:00 UTC still lists pointer",
+      "triggering_reason": "Ext4 inode was unlinked 12 minutes prior to object storage snapshot generation, yet snapshot metadata retained entry.",
+      "alternative_explanations": [
+        "Snapshot tool read from asynchronous storage cache rather than live disk blocks.",
+        "Delayed sync barrier on clustered filesystem."
+      ],
+      "missing_information": "Storage cache flush flush_metadata log.",
+      "suggested_action": "Check mount options for async vs sync write mode on SVR-VAULT-01.",
+      "limitations": "Filesystem caching artifacts frequently create temporal anomalies."
+    },
+    {
+      "rule_id": "RULE-CONTR-006",
+      "rule_name": "Incomplete Evidence Provenance Chain",
+      "severity": "LOW",
+      "source_evidence_ids": ["EVD-012"],
+      "supporting_event_ids": ["EVT-028"],
+      "rule_condition": "Evidence_Record lacks Cryptographic_Signature OR Collection_Agent_Identity",
+      "observed_values": "EVD-012 recovered from ad-hoc snapshot without chain-of-custody cryptographic signature",
+      "triggering_reason": "The file was collected during emergency response without formal forensic acquisition imaging.",
+      "alternative_explanations": [
+        "Rapid response protocol prioritized speed over formal disk imaging."
+      ],
+      "missing_information": "Forensic write-blocker verification log and acquisition hash log.",
+      "suggested_action": "Re-acquire disk image of NAS-STORAGE-09 using write-blocking hardware.",
+      "limitations": "Prototype demonstration data. Does not satisfy legal chain of custody."
+    },
+    {
+      "rule_id": "RULE-CONTR-007",
+      "rule_name": "NTP Clock Discrepancy Affecting Sequence Analysis",
+      "severity": "HIGH",
+      "source_evidence_ids": ["EVD-023"],
+      "supporting_event_ids": ["EVT-022", "EVT-023"],
+      "rule_condition": "NTP_Clock_Offset > 1000ms ON CRITICAL EVIDENCE SOURCE",
+      "observed_values": "Chrony reported +3200ms offset on SVR-VAULT-01",
+      "triggering_reason": "Significant clock skew invalidates naive millisecond ordering between server logs and external door badge logs.",
+      "alternative_explanations": [
+        "Virtual machine time drift following hypervisor live migration.",
+        "NTP daemon network packet drop during lab power fluctuation (EVD-021)."
+      ],
+      "missing_information": "Hypervisor host system clock logs.",
+      "suggested_action": "Normalize server timestamps by subtracting 3200ms when reconstructing causal order.",
+      "limitations": "Time correction is an analytical hypothesis and must never overwrite original raw logs."
+    }
+  ],
+  "missing_evidence_items": [
+    {
+      "id": "MIS-001",
+      "title": "Secondary Switch Gi0/14 Full Packet Capture (EVD-099)",
+      "impact_level": "BLOCKS_EXFILTRATION_CONCLUSION",
+      "affected_hypotheses": ["HYP-A", "HYP-B"],
+      "affected_findings": ["RULE-CONTR-003"],
+      "why_it_matters": "Without raw payload packets, the investigation cannot prove whether the 4.2GB transfer contained exfiltrated research files or routine compressed OS images.",
+      "resolution_steps": "Check secondary network tap storage appliances or gateway netflow export archives for retained session flows."
+    },
+    {
+      "id": "MIS-002",
+      "title": "Internal CA Certificate Revocation & Issuance Log",
+      "impact_level": "REDUCES_CONTEXT",
+      "affected_hypotheses": ["HYP-B"],
+      "affected_findings": ["RULE-CONTR-004"],
+      "why_it_matters": "Determines whether CN=svc-daemon-guest was officially issued by lab management or forged.",
+      "resolution_steps": "Query Microsoft CA / Vault PKI audit log for certificate serial 0x7A8812B."
+    },
+    {
+      "id": "MIS-003",
+      "title": "Drive /dev/sdb Hardware Bad Block Inode Mapping",
+      "impact_level": "REDUCES_CONTEXT",
+      "affected_hypotheses": ["HYP-A"],
+      "affected_findings": ["RULE-CONTR-002", "RULE-CONTR-005"],
+      "why_it_matters": "Confirms whether the 14 reallocated sectors physically coincided with inode #482910.",
+      "resolution_steps": "Run badblocks -v /dev/sdb and cross-reference with debugfs inode block table."
+    },
+    {
+      "id": "MIS-004",
+      "title": "Nightly Sync Shell Script Exact Execution Arguments",
+      "impact_level": "BLOCKS_MAINTENANCE_CONCLUSION",
+      "affected_hypotheses": ["HYP-A"],
+      "affected_findings": ["RULE-CONTR-005"],
+      "why_it_matters": "Proves whether rsync was instructed to delete source files with --remove-source-files flag.",
+      "resolution_steps": "Recover deleted /usr/local/bin/nightly_sync.sh from backup or inspect process accounting logs."
+    },
+    {
+      "id": "MIS-005",
+      "title": "USB Storage Device SanDisk File Transfer History",
+      "impact_level": "REDUCES_CONTEXT",
+      "affected_hypotheses": ["HYP-B"],
+      "affected_findings": ["RULE-CONTR-001"],
+      "why_it_matters": "Determines whether any files were written to the mounted USB drive at /mnt/usb before sleep.",
+      "resolution_steps": "Obtain physical acquisition of SanDisk USB drive (Serial AA010928371) and inspect partition table."
+    }
+  ],
+  "challenge_tasks": [
+    {
+      "id": "TASK-001",
+      "title": "Detect Timestamp Inconsistency",
+      "description": "Locate the temporal contradiction between Dr. Rostova's physical badge exit and subsequent console logs.",
+      "points": 15,
+      "verification_key": "FLAG_TIMESTAMP_SKEW_IDENTIFIED",
+      "hint": "Examine EVD-009 (exit at 01:45 UTC) vs EVT-022 (console activity at 01:47 UTC) and review NTP log EVD-023."
+    },
+    {
+      "id": "TASK-002",
+      "title": "Verify SHA-256 Reference Mismatch",
+      "description": "Run the integrity verification engine against quantum_protocol_v3_tampered.pdf and confirm it differs from reference.",
+      "points": 20,
+      "verification_key": "FLAG_INTEGRITY_MISMATCH_VERIFIED",
+      "hint": "In the Integrity Verification view, run calculate on sample file quantum_protocol_v3_tampered.pdf."
+    },
+    {
+      "id": "TASK-003",
+      "title": "Trace Evidence Provenance Chain",
+      "description": "Trace the lifecycle path of evidence EVD-011 through analysis rules to Finding RULE-CONTR-002.",
+      "points": 15,
+      "verification_key": "FLAG_PROVENANCE_CHAIN_TRACED",
+      "hint": "Open the Provenance & Graph view and inspect the derivation nodes from Source Artifact to Report Statement."
+    },
+    {
+      "id": "TASK-004",
+      "title": "Evaluate Competing Hypotheses",
+      "description": "Review Hypothesis A vs Hypothesis B and mark at least two evidence items with reviewer annotations.",
+      "points": 20,
+      "verification_key": "FLAG_HYPOTHESES_ANNOTATED",
+      "hint": "In Hypothesis Lab, toggle between Hypothesis A and B, then set an annotation (Supports / Contradicts)."
+    },
+    {
+      "id": "TASK-005",
+      "title": "Identify Critical Missing Evidence",
+      "description": "Identify the missing packet capture (EVD-099) that blocks confirming unauthorized exfiltration.",
+      "points": 15,
+      "verification_key": "FLAG_MISSING_EVIDENCE_IDENTIFIED",
+      "hint": "Navigate to Missing-Evidence Analysis and inspect MIS-001."
+    },
+    {
+      "id": "TASK-006",
+      "title": "Generate Evidence-Linked Investigation Report",
+      "description": "Compile the complete investigation findings into a structured, evidence-linked report.",
+      "points": 15,
+      "verification_key": "FLAG_REPORT_GENERATED",
+      "hint": "Navigate to Report Generator, review all 17 forensic sections, and export or copy the report."
+    }
+  ]
+}

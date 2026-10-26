@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% block title %}Evidence Graph — TraceIQ Nexus{% endblock %}
+{% block head %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.28.1/cytoscape.min.js"></script>
+<style>
+    #cy {
+        width: 100%;
+        height: 600px;
+        background-color: #070a14;
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+    }
+</style>
+{% endblock %}
+{% block content %}
+<div class="row align-items-center mb-4">
+    <div class="col-md-8">
+        <h2 class="fw-bold mb-1 text-white">Interactive Evidence Graph</h2>
+        <p class="text-secondary mb-0">Entity-relationship topology &bull; Trace connections between personnel, hosts, evidence records, and hypotheses.</p>
+    </div>
+    <div class="col-md-4 text-md-end mt-3 mt-md-0">
+        <button class="btn btn-sm btn-outline-nexus me-2" onclick="cy.fit()">Fit View</button>
+        <button class="btn btn-sm btn-cyan" onclick="cy.layout({ name: 'cose', animate: true }).run()">Re-Layout</button>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-9">
+        <div class="card-nexus p-2">
+            <div id="cy"></div>
+        </div>
+        <div class="d-flex flex-wrap gap-3 mt-2 px-2 small">
+            <div><span style="display:inline-block;width:12px;height:12px;background:#8B5CF6;border-radius:50%;margin-right:4px;"></span> Personnel & Hosts</div>
+            <div><span style="display:inline-block;width:12px;height:12px;background:#00E5FF;border-radius:50%;margin-right:4px;"></span> Evidence Records</div>
+            <div><span style="display:inline-block;width:12px;height:12px;background:#EC4899;border-radius:50%;margin-right:4px;"></span> Hypotheses</div>
+            <div><span style="display:inline-block;width:12px;height:2px;background:#10B981;margin-right:4px;vertical-align:middle;"></span> Supports</div>
+            <div><span style="display:inline-block;width:12px;height:2px;background:#EF4444;margin-right:4px;vertical-align:middle;"></span> Contradicts</div>
+        </div>
+    </div>
+
+    <div class="col-lg-3">
+        <div class="card-nexus">
+            <h5 class="fw-bold text-white mb-3">Node Inspector</h5>
+            <div id="graphNodeInspector" class="text-secondary small">
+                <p>Click on any node in the graph to inspect its properties, connections, and underlying evidence.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    let cy;
+    fetch("/api/graph/elements")
+        .then(res => res.json())
+        .then(data => {
+            cy = cytoscape({
+                container: document.getElementById('cy'),
+                elements: data,
+                style: [
+                    {
+                        selector: 'node',
+                        style: {
+                            'background-color': 'data(color)',
+                            'label': 'data(label)',
+                            'color': '#ffffff',
+                            'font-size': '11px',
+                            'text-valign': 'bottom',
+                            'text-margin-y': '6px',
+                            'width': '36px',
+                            'height': '36px'
+                        }
+                    },
+                    {
+                        selector: 'edge',
+                        style: {
+                            'width': 2,
+                            'line-color': 'data(line_color)',
+                            'target-arrow-color': 'data(line_color)',
+                            'target-arrow-shape': 'triangle',
+                            'curve-style': 'bezier',
+                            'opacity': 0.75
+                        }
+                    }
+                ],
+                layout: {
+                    name: 'cose',
+                    animate: false,
+                    padding: 30
+                }
+            });
+
+            cy.on('tap', 'node', function(evt){
+                const node = evt.target;
+                const d = node.data();
+                document.getElementById('graphNodeInspector').innerHTML = `
+                    <div class="mb-2"><span class="badge badge-cyan">${d.node_type}</span></div>
+                    <h6 class="fw-bold text-white">${d.label}</h6>
+                    <p class="text-muted small">${d.sublabel || ''}</p>
+                    <div class="small text-secondary">Node ID: <code>${d.id}</code></div>
+                `;
+            });
+        });
+</script>
+{% endblock %}

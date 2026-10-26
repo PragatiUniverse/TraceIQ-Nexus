@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Forensic Report Generator — TraceIQ Nexus{% endblock %}
+{% block content %}
+<div class="row align-items-center mb-4">
+    <div class="col-md-7">
+        <h2 class="fw-bold mb-1 text-white">Evidence-Linked Forensic Report</h2>
+        <p class="text-secondary mb-0">Compiled 17-section investigation dossier synthesized from active evidence records & telemetry.</p>
+    </div>
+    <div class="col-md-5 text-md-end mt-3 mt-md-0">
+        <button class="btn btn-sm btn-outline-nexus me-2" onclick="copyReport()">📋 Copy Markdown</button>
+        <a href="{{ url_for('traceiq.download_report') }}" class="btn btn-sm btn-cyan">⬇️ Download Report (.md)</a>
+    </div>
+</div>
+
+<div class="card-nexus p-4">
+    <div class="code-box p-4" id="reportContent" style="white-space: pre-wrap; font-family: 'Courier New', Courier, monospace; font-size: 0.85rem; line-height: 1.5; color: #e2e8f0; background: #070a14;">{{ report_markdown }}</div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function copyReport() {
+        const text = document.getElementById("reportContent").innerText;
+        navigator.clipboard.writeText(text).then(() => {
+            alert("Investigation report copied to clipboard!");
+        });
+    }
+</script>
+{% endblock %}

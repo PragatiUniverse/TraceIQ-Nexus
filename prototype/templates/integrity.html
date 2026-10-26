@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block title %}SHA-256 Integrity Verification — TraceIQ Nexus{% endblock %}
+{% block content %}
+<div class="row align-items-center mb-4">
+    <div class="col-md-8">
+        <h2 class="fw-bold mb-1 text-white">SHA-256 File Integrity Verification</h2>
+        <p class="text-secondary mb-0">Cryptographic hash calculation engine using Python <code>hashlib</code> &bull; Compare sample files against reference manifests.</p>
+    </div>
+    <div class="col-md-4 text-md-end mt-3 mt-md-0">
+        <span class="badge badge-emerald p-2">FIPS 180-4 Compliant Digest</span>
+    </div>
+</div>
+
+{% if result %}
+<div class="card-nexus mb-4 p-4" style="border-left: 5px solid {% if result.is_match %}var(--accent-emerald){% elif result.is_match == False %}var(--accent-rose){% else %}var(--accent-cyan){% endif %};">
+    <div class="d-flex justify-content-between align-items-start mb-2">
+        <h4 class="fw-bold text-white mb-0">Verification Result: {{ result.filename }}</h4>
+        <span class="badge {% if result.is_match %}badge-emerald{% elif result.is_match == False %}badge-rose{% else %}badge-cyan{% endif %} p-2">
+            {{ result.status_text }}
+        </span>
+    </div>
+    <p class="text-secondary small mb-3">Verification Action ID: <code>{{ result.action_id }}</code> &bull; Timestamp: {{ result.verified_at }}</p>
+
+    <div class="row g-3 mb-3">
+        <div class="col-md-6">
+            <span class="text-muted small fw-bold text-uppercase">Calculated SHA-256 Digest:</span>
+            <div class="code-box mt-1 py-2">{{ result.calculated_sha256 }}</div>
+        </div>
+        <div class="col-md-6">
+            <span class="text-muted small fw-bold text-uppercase">Reference Manifest Digest:</span>
+            <div class="code-box mt-1 py-2" style="color: {% if result.is_match %}#86efac{% else %}#fca5a5{% endif %};">
+                {{ result.reference_sha256 or 'No reference hash provided' }}
+            </div>
+        </div>
+    </div>
+
+    <div class="alert alert-secondary mb-0 small" style="background: rgba(255,255,255,0.05); border-color: var(--border-color); color: var(--text-secondary);">
+        <strong>Forensic Principle:</strong> {{ result.forensic_guidance }}
+    </div>
+</div>
+{% endif %}
+
+<div class="row g-4">
+    <!-- Built-in Synthetic Samples -->
+    <div class="col-lg-6">
+        <div class="card-nexus h-100">
+            <h5 class="fw-bold text-white mb-3">Sample Evidence Verification</h5>
+            <p class="text-secondary small mb-4">Run live SHA-256 digest checks on the included case files to inspect matching vs modified states.</p>
+
+            <div class="p-3 rounded mb-3" style="background: rgba(0,0,0,0.25); border: 1px solid var(--border-color);">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <strong class="text-white">quantum_protocol_v3.pdf</strong><br>
+                        <span class="text-muted small">Original reference document deposited in vault</span>
+                    </div>
+                    <form method="POST" action="{{ url_for('traceiq.integrity') }}">
+                        <input type="hidden" name="action" value="verify_original">
+                        <button type="submit" class="btn btn-sm btn-cyan">Verify (Original)</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="p-3 rounded" style="background: rgba(0,0,0,0.25); border: 1px solid var(--border-color);">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <strong class="text-white">quantum_protocol_v3_tampered.pdf</strong><br>
+                        <span class="text-muted small">Recovered file with altered header payload block</span>
+                    </div>
+                    <form method="POST" action="{{ url_for('traceiq.integrity') }}">
+                        <input type="hidden" name="action" value="verify_tampered">
+                        <button type="submit" class="btn btn-sm btn-outline-danger">Verify (Tampered)</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Digest Comparator -->
+    <div class="col-lg-6">
+        <div class="card-nexus h-100">
+            <h5 class="fw-bold text-white mb-3">Custom Digest Comparator</h5>
+            <p class="text-secondary small mb-3">Enter arbitrary test text payload and optional reference hash to compute and compare SHA-256 live.</p>
+
+            <form method="POST" action="{{ url_for('traceiq.integrity') }}">
+                <input type="hidden" name="action" value="verify_custom_text">
+                <div class="mb-3">
+                    <label class="form-label text-secondary small">Text Payload to Hash:</label>
+                    <textarea name="text_content" class="form-control" rows="3" placeholder="Enter string or log payload..." style="background: #070a14; border-color: var(--border-color); color: #fff;"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label text-secondary small">Expected Reference SHA-256 (Optional 64-Hex):</label>
+                    <input type="text" name="reference_hash" class="form-control" placeholder="e.g. 2e6c0ed1e24cb07944da1d22a2c9d0c7334837cb1c14dd308e46d17e0dd0b6b0" style="background: #070a14; border-color: var(--border-color); color: #fff;">
+                </div>
+                <button type="submit" class="btn btn-violet w-100">Calculate & Verify SHA-256</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+{% block title %}Multiple-Hypothesis Lab — TraceIQ Nexus{% endblock %}
+{% block content %}
+<div class="row align-items-center mb-4">
+    <div class="col-md-8">
+        <h2 class="fw-bold mb-1 text-white">Multiple-Hypothesis Lab</h2>
+        <p class="text-secondary mb-0">Evaluate and challenge competing explanatory scenarios without cognitive bias or premature closure.</p>
+    </div>
+    <div class="col-md-4 text-md-end mt-3 mt-md-0">
+        <span class="badge badge-cyan p-2">Analysis of Competing Hypotheses (ACH)</span>
+    </div>
+</div>
+
+<div class="alert alert-info py-2 px-3 mb-4 small" style="background: rgba(0, 229, 255, 0.1); border-color: rgba(0, 229, 255, 0.3); color: #bae6fd;">
+    ℹ️ <strong>Epistemological Guardrail:</strong> Evidence support counts reflect documented consistency with a scenario. They must <strong>never</strong> be interpreted as Bayesian mathematical probabilities of truth or proof of guilt.
+</div>
+
+<div class="row g-4">
+    {% for hyp in hypotheses %}
+    <div class="col-lg-6">
+        <div class="card-nexus h-100 d-flex flex-column" style="border-top: 4px solid {% if loop.first %}var(--accent-cyan){% else %}var(--accent-violet){% endif %};">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+                <span class="badge {% if loop.first %}badge-cyan{% else %}badge-violet{% endif %}">{{ hyp.id }}</span>
+                <span class="text-muted small">{{ hyp.metric_support_count }} Supporting &bull; {{ hyp.metric_contradict_count }} Contradicting</span>
+            </div>
+            <h4 class="fw-bold text-white mb-2">{{ hyp.title }}</h4>
+            <p class="text-secondary small mb-3">{{ hyp.summary }}</p>
+
+            <div class="mb-3">
+                <h6 class="fw-bold text-success small text-uppercase">Supporting Evidence ({{ hyp.supporting_evidence|length }})</h6>
+                <div class="d-flex flex-wrap gap-1">
+                    {% for eid in hyp.supporting_evidence %}
+                    <span class="badge badge-emerald" title="Supporting Evidence Record"><code>{{ eid }}</code></span>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <h6 class="fw-bold text-danger small text-uppercase">Contradicting Evidence ({{ hyp.contradicting_evidence|length }})</h6>
+                <div class="d-flex flex-wrap gap-1">
+                    {% for eid in hyp.contradicting_evidence %}
+                    <span class="badge badge-rose" title="Contradicting Evidence Record"><code>{{ eid }}</code></span>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <h6 class="fw-bold text-warning small text-uppercase">Critical Assumptions</h6>
+                <ul class="text-secondary small ps-3 mb-0">
+                    {% for asm in hyp.assumptions %}
+                    <li>{{ asm }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="mb-3">
+                <h6 class="fw-bold text-info small text-uppercase">Unanswered Questions</h6>
+                <ul class="text-secondary small ps-3 mb-0">
+                    {% for q in hyp.unanswered_questions %}
+                    <li>{{ q }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <!-- Reviewer Annotation Panel -->
+            <div class="mt-auto pt-3 border-top" style="border-color: var(--border-color) !important;">
+                <h6 class="fw-bold text-white small mb-2">Reviewer Stance Annotation</h6>
+                <div class="btn-group w-100 mb-2">
+                    <button class="btn btn-sm btn-outline-success" onclick="annotate('{{ hyp.id }}', 'EVD-011', 'SUPPORTS')">Supports</button>
+                    <button class="btn btn-sm btn-outline-danger" onclick="annotate('{{ hyp.id }}', 'EVD-011', 'CONTRADICTS')">Contradicts</button>
+                    <button class="btn btn-sm btn-outline-secondary" onclick="annotate('{{ hyp.id }}', 'EVD-011', 'NEUTRAL')">Neutral</button>
+                    <button class="btn btn-sm btn-outline-warning" onclick="annotate('{{ hyp.id }}', 'EVD-011', 'REQUIRES_REVIEW')">Review</button>
+                </div>
+                {% if hyp.reviewer_annotations %}
+                <div class="small text-muted">
+                    Saved Annotations:
+                    {% for a in hyp.reviewer_annotations %}
+                    <span class="badge bg-dark border text-light ms-1">{{ a.evidence_id }}: {{ a.stance }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function annotate(hypId, evId, stance) {
+        fetch("/api/hypotheses/annotate", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                case_id: "TQN-2026-001",
+                hypothesis_id: hypId,
+                evidence_id: evId,
+                stance: stance,
+                notes: "Recorded via Multiple-Hypothesis Lab review interface"
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+            alert(`Stance for ${hypId} / ${evId} set to: ${stance}`);
+            window.location.reload();
+        })
+        .catch(err => alert("Error saving annotation: " + err));
+    }
+</script>
+{% endblock %}

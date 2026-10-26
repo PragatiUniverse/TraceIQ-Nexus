@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block title %}Investigation Challenge — TraceIQ Nexus{% endblock %}
+{% block content %}
+<div class="row align-items-center mb-4">
+    <div class="col-md-7">
+        <h2 class="fw-bold mb-1 text-white">Live Investigation Challenge</h2>
+        <p class="text-secondary mb-0">{{ challenge.challenge_name }} &bull; Case <strong>{{ challenge.case_id }}</strong></p>
+    </div>
+    <div class="col-md-5 text-md-end mt-3 mt-md-0">
+        <button class="btn btn-sm btn-outline-danger me-2" onclick="resetChallenge()">Reset Challenge Progress</button>
+        <span class="badge badge-cyan p-2">Score: {{ challenge.current_score }} / {{ challenge.total_possible_score }} pts ({{ challenge.score_percentage }}%)</span>
+    </div>
+</div>
+
+<div class="progress mb-4" style="height: 10px; background-color: var(--bg-surface);">
+    <div class="progress-bar bg-info progress-bar-striped progress-bar-animated" role="progressbar" style="width: {{ challenge.score_percentage }}%;"></div>
+</div>
+
+<div class="alert alert-secondary py-2 px-3 mb-4 small" style="background: rgba(255,255,255,0.05); border-color: var(--border-color); color: var(--text-secondary);">
+    {{ challenge.scoring_disclaimer }}
+</div>
+
+<div class="row g-4">
+    {% for task in challenge.tasks %}
+    <div class="col-lg-6">
+        <div class="card-nexus h-100 d-flex flex-column" style="border-left: 4px solid {% if task.is_completed %}var(--accent-emerald){% else %}var(--border-color){% endif %};">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+                <span class="badge badge-cyan">{{ task.id }}</span>
+                <span class="badge {% if task.is_completed %}badge-emerald{% else %}badge-violet{% endif %}">
+                    {% if task.is_completed %}✓ Completed (+{{ task.awarded_score }} pts){% else %}{{ task.points }} pts{% endif %}
+                </span>
+            </div>
+
+            <h5 class="fw-bold text-white mb-2">{{ task.title }}</h5>
+            <p class="text-secondary small mb-3 flex-grow-1">{{ task.description }}</p>
+
+            <div class="p-2 rounded mb-3 small" style="background: rgba(0,0,0,0.25); border: 1px solid var(--border-color);">
+                <strong class="text-warning">Hint:</strong> {{ task.hint }}
+            </div>
+
+            <div class="mt-auto d-flex justify-content-between align-items-center pt-2 border-top" style="border-color: var(--border-color) !important;">
+                <span class="text-muted small" style="font-size: 0.75rem;">Key: <code>{{ task.verification_key }}</code></span>
+                {% if not task.is_completed %}
+                <button class="btn btn-sm btn-cyan" onclick="completeTask('{{ task.id }}')">Verify & Complete</button>
+                {% else %}
+                <span class="text-success small fw-bold">✓ Verified</span>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function completeTask(taskId) {
+        fetch("/api/challenge/complete", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ task_id: taskId, notes: "Verified in investigation session" })
+        })
+        .then(res => res.json())
+        .then(data => {
+            alert(`Task ${taskId} verified successfully!`);
+            window.location.reload();
+        })
+        .catch(err => alert("Error verifying task: " + err));
+    }
+
+    function resetChallenge() {
+        if (confirm("Reset challenge progress and score back to 0?")) {
+            fetch("/api/challenge/reset", { method: "POST" })
+                .then(res => res.json())
+                .then(data => {
+                    alert("Challenge progress reset.");
+                    window.location.reload();
+                })
+                .catch(err => alert("Error resetting challenge: " + err));
+        }
+    }
+</script>
+{% endblock %}
